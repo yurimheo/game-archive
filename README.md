@@ -87,6 +87,8 @@
 
 **Game Archive**는 팀 아카이브의 열정과 기술력으로 지속적으로 발전해나갈 것입니다! 🚀
 
+---
+
 # 🚀 Git 사용 가이드
 
 이 문서는 **Game Archive 프로젝트**에서 Git을 올바르게 사용하는 방법을 안내합니다. 모든 팀원은 이 지침을 따라 Git을 활용해주세요.
@@ -164,8 +166,7 @@
    # 예시: git push origin feature/hjw/login-function
 
 ---
-### **💥 VS Code에서 소스 제어 확인**
-
+## **💥 VS Code에서 소스 제어 확인**
 Git 명령어를 사용하지 않고, **Visual Studio Code**에서 Git 소스 제어 기능을 활용하여 브랜치를 병합하고 충돌을 해결하는 방법을 안내합니다.
 
 ---
