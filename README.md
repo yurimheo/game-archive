@@ -16,7 +16,7 @@
 
 ## 🎯 프로젝트 목표
 
-<blockquote class="imgur-embed-pub" lang="en" data-id="a/60yIn2i" data-context="false" ><a href="//imgur.com/a/60yIn2i"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+[](https://imgur.com/a/60yIn2i)
 
 ### 🚀 핵심 목표
 1. **Kubernetes 클러스터 구축**  
