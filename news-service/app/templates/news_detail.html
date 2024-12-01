@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ news.title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/news_detail.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="news-container">
+    <!-- 뉴스 제목 -->
+    <h1 class="news-title">{{ news.title }}</h1>
+    <hr>
+    
+    <!-- 뉴스 내용 -->
+    <p class="news-content">{{ news.content }}</p>
+
+    <!-- 댓글 섹션 -->
+    <div class="news-comments">
+        <h2 class="comments-title">댓글</h2>
+        <ul class="comments-list">
+            {% for comment in news.comments %}
+            <li class="comment">
+                <strong>{{ comment.author }}</strong>: {{ comment.text }}
+            </li>
+            {% endfor %}
+        </ul>
+
+        <!-- 댓글 입력 폼 -->
+        <form class="news-comment-form">
+            <textarea name="comment" placeholder="댓글을 입력하세요"></textarea>
+            <button type="submit" class="news-comment-submit">등록</button>
+        </form>
+    </div>
+
+    <!-- 목록으로 돌아가기 -->
+    <a href="{{ url_for('news.news') }}" class="news-back-button">목록으로 돌아가기</a>
+</div>
+{% endblock %}

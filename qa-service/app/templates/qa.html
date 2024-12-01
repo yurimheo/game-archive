@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}질문 게시판{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/qa.css') }}">
+{% endblock %}
+
+{% block content %}
+<div>
+    <div class="qna-container">
+        <h1 class="mb-4">질문 게시판</h1>
+
+        <!-- 인기 질문 섹션 -->
+        <div class="qna-popular mb-4">
+            <h2>🔥 인기 질문</h2>
+            <ul class="list-group">
+                {% for question in popular_questions %}
+                <li class="list-group-item">
+                    <a href="{{ url_for('qa.detail', question_id=question.id) }}">{{ question.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- 질문 목록 테이블 -->
+        <table class="qna-table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">번호</th>
+                    <th scope="col">제목</th>
+                    <th scope="col">글쓴이</th>
+                    <th scope="col">조회수</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in questions %}
+                <tr>
+                    <td>{{ question.id }}</td>
+                    <td>
+                        <a href="{{ url_for('qa.detail', question_id=question.id) }}">{{ question.title }}</a>
+                    </td>
+                    <td>{{ question.author }}</td>
+                    <td>{{ question.views }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- 페이지네이션 -->
+        <div class="qna-footer">
+            <div class="qna-pagination">
+                {% if current_page > 1 %}
+                <a href="{{ url_for('qa.index', page=current_page - 1) }}" class="prev">&lt;</a>
+                {% endif %}
+            
+                {% for page in range(1, total_pages + 1) %}
+                <a href="{{ url_for('qa.index', page=page) }}" class="{% if page == current_page %}active{% endif %}">
+                    {{ page }}
+                </a>
+                {% endfor %}
+            
+                {% if current_page < total_pages %}
+                <a href="{{ url_for('qa.index', page=current_page + 1) }}" class="next">&gt;</a>
+                {% endif %}
+            </div>
+            
+            <a href="{{ url_for('qa.create') }}" class="qna-button">질문 등록</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

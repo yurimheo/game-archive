@@ -1,0 +1,82 @@
+<!-- templates/qa/create.html -->
+{% extends "base.html" %}
+
+{% block title %}질문 등록 - QA Service{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/qa-create.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="qa-create-container">
+    <h1 class="qa-create-title">질문 등록</h1>
+    <div class="qa-create-form-container">
+        <h2 class="qa-create-subtitle">새로운 질문 작성하기</h2>
+        <form class="qa-create-form" method="POST" action="{{ url_for('qa.create') }}">
+            <!-- 작성자 (로그인한 유저) -->
+            <div class="qa-create-form-group">
+                <label for="qa-author" class="qa-create-label">작성자</label>
+                <input
+                    type="text"
+                    id="qa-author"
+                    name="author"
+                    class="qa-create-input"
+                    placeholder="로그인 사용자 이름 (자동 입력)"
+                    value="Test User" <!-- 로그인 연동 시 변경 -->
+                    readonly
+                />
+            </div>
+
+            <!-- 제목 -->
+            <div class="qa-create-form-group">
+                <label for="qa-title" class="qa-create-label">제목</label>
+                <input
+                    type="text"
+                    id="qa-title"
+                    name="title"
+                    class="qa-create-input"
+                    placeholder="질문의 제목을 입력하세요"
+                    required
+                />
+            </div>
+
+            <!-- 카테고리 -->
+            <div class="qa-create-form-group">
+                <label for="qa-category" class="qa-create-label">카테고리</label>
+                <select id="qa-category" name="category" class="qa-create-select" required>
+                    <option value="" disabled selected>카테고리를 선택하세요</option>
+                    <option value="general">일반</option>
+                    <option value="gameplay">게임플레이</option>
+                    <option value="technical">기술적 문제</option>
+                    <option value="story">게임 스토리/세계관</option>
+                </select>
+            </div>
+
+            <!-- 질문 내용 -->
+            <div class="qa-create-form-group">
+                <label for="qa-content" class="qa-create-label">질문 내용</label>
+                <textarea
+                    id="qa-content"
+                    name="content"
+                    class="qa-create-textarea"
+                    placeholder="자세한 질문 내용을 입력하세요"
+                    rows="5"
+                    required
+                ></textarea>
+            </div>
+
+            <!-- 버튼 -->
+            <div class="qa-create-buttons">
+                <button type="submit" class="qa-create-button-submit">질문 등록</button>
+                <a href="{{ url_for('qa.index') }}" class="qa-create-button-cancel">질문 목록</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// 추가적인 클라이언트 검증 로직 (필요시 구현)
+</script>
+{% endblock %}

@@ -1,0 +1,117 @@
+.footer {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    padding: 30px 20px;
+    font-family: 'Arial', sans-serif;
+    font-size: 0.9rem;
+}
+
+.footer .container {
+    max-width: 1200px;
+}
+
+/* About 영역 */
+.footer-about {
+    text-align: left;
+}
+
+.footer-heading {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #f8f8f8;
+    text-transform: uppercase;
+}
+
+.footer-about p {
+    color: #bbbbbb;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    margin-bottom: 20px; 
+}
+
+/* 깃허브 버튼 */
+.footer-github-btn-container {
+    margin-top: 10px;
+}
+
+.footer-github-btn {
+    display: inline-block;
+    font-size: 0.95rem;
+    color: #ffffff;
+    background-color: #333333;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px; 
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-github-btn i {
+    margin-right: 8px;
+    font-size: 1.2rem;
+}
+
+.footer-github-btn:hover {
+    background-color: #555555;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* 팀 멤버 */
+.footer-team {
+    text-align: right;
+}
+
+.footer-team-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-team-list li {
+    margin: 5px 0;
+    color: #bbbbbb;
+    font-size: 0.9rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.footer-team-list li:first-child {
+    color: gold;
+}
+
+.footer-team-list li:hover {
+    color: #ffffff;
+    transform: translateX(5px);
+}
+
+.footer-divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin: 20px 0;
+}
+
+.footer p {
+    color: #bbbbbb;
+    margin: 0;
+    font-size: 0.85rem;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .footer-about {
+        text-align: center;
+    }
+
+    .footer-team {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .footer-github-btn-container {
+        text-align: center;
+    }
+}
