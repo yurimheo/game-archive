@@ -1,3 +1,5 @@
+![](https://images.unsplash.com/photo-1615503340293-27951e043eae?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+
 # 🌟 Game Archive - 게임 커뮤니티 프로젝트 🌟
 
 **팀명:** 팀 아카이브  
