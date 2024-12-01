@@ -20,7 +20,7 @@
 ![이미지 설명](https://i.imgur.com/xr6VjlO.png)
 
 ## 🖼 사이트맵
-![](blob:https://imgur.com/a508fe95-e638-45e1-83d0-0632bf4ba992)
+![](https://i.imgur.com/Mx0T06v.png)
 
 ---
 
