@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Game News - Game Archive{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/news.css') }}">
+{% endblock %}
+
+{% block content %}
+<div>
+    <div class="news-container">
+        <h1 class="news-title">게임 뉴스</h1>
+        <!-- 인기 뉴스 섹션 -->
+        <div class="news-popular-news">
+            <h2>🔥 인기 뉴스</h2>
+            <ul class="news-list-unstyled">
+                <li class="news-list-item"><a href="#">게임 뉴스 더미 테스트 1</a> | 2024. 11. 26.</li>
+                <li class="news-list-item"><a href="#">게임 뉴스 더미 테스트 2</a> | 2024. 11. 26.</li>
+                <li class="news-list-item"><a href="#">게임 뉴스 더미 테스트 3</a> | 2024. 11. 25.</li>
+            </ul>
+        </div>
+
+        <!-- 뉴스 카드 섹션 -->
+        <div class="news-cards">
+            {% for news in news_list %}
+            <div class="news-card">
+                <img src="{{ news.image_url }}" alt="News Image" class="news-card-img">
+                <div class="news-card-content">
+                    <a href="{{ url_for('news.news_detail', news_id=news.id) }}" class="news-card-title">{{ news.title }}</a>
+                    <p class="news-card-date">{{ news.date }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- 페이지네이션 -->
+        <div class="news-pagination">
+            {% if current_page > 1 %}
+            <a href="{{ url_for('news.news', page=current_page - 1) }}" class="news-pagination-prev">&lt;</a>
+            {% endif %}
+            
+            {% for page in range(1, total_pages + 1) %}
+            <a href="{{ url_for('news.news', page=page) }}" class="{% if page == current_page %}news-pagination-active{% else %}news-pagination-link{% endif %}">
+                {{ page }}
+            </a>
+            {% endfor %}
+            
+            {% if current_page < total_pages %}
+            <a href="{{ url_for('news.news', page=current_page + 1) }}" class="news-pagination-next">&gt;</a>
+            {% endif %}
+        </div>
+        
+        
+    </div>
+</div>
+{% endblock %}

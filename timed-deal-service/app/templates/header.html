@@ -7,7 +7,7 @@
                 <div class="header-box">
                     <div class="brand">
                         <div class="brand-title">
-                            <a href="{{ url_for('main.index') }}">
+                            <a href="http://127.0.0.1:5001">
                                 <img src="{{ url_for('static', filename='images/logo.png') }}" alt="GAMCAVE Logo" class="site-logo">
                                 Game-Archive 
                                     <span>Soldesk 803 Game Community</span>
@@ -20,22 +20,22 @@
 
                     <!-- 네비게이션 영역 -->
                     <nav class="custom-nav-menu">
-                        <a href="{{ url_for('ksj.index') }}" class="custom-nav-link">Deals & Discounts</a>
-                        <a href="{{ url_for('ssm.index') }}" class="custom-nav-link">Tips & Guides</a>
-                        <a href="{{ url_for('csm.index') }}" class="custom-nav-link">Game News</a>
-                        <a href="{{ url_for('hyl.qna') }}" class="custom-nav-link">Q&A Corner</a>
+                        <a href="http://127.0.0.1:5002/discounts" class="custom-nav-link">Discounts</a>
+                        <a href="http://127.0.0.1:5003/guide" class="custom-nav-link">Tips & Guides</a>
+                        <a href="http://127.0.0.1:5004/news" class="custom-nav-link">Game News</a>
+                        <a href="http://127.0.0.1:5005/qa" class="custom-nav-link">Q&A Corner</a>
                     </nav>
                 </div>
 
                 <!-- 로그인 및 회원가입 버튼 -->
                 <div class="header-box">
                     <div class="custom-nav-right buttons">
-                        <button class="navbtn" id="loginButton" data-url="{{ url_for('hjw.index') }}">
+                        <button class="navbtn" id="loginButton" data-url="http://127.0.0.1:5006/login">
                             Login
                         </button>
                     </div>
                     <div class="custom-nav-right buttons">
-                        <button class="navbtn" id="signupButton" data-url="{{ url_for('hjw.signup') }}">
+                        <button class="navbtn" id="signupButton" data-url="http://127.0.0.1:5006/register">
                             Sign Up
                         </button>
                     </div>
@@ -45,13 +45,13 @@
                 <div class="hamburger-menu" id="hamburgerMenu">
                     <button id="hamburger-menuToggle" class="hamburger-menu-btn">☰</button>
                     <div class="hamburger-dropdown-menu hidden" id="hamburger-dropdownMenu">
-                        <a href="{{ url_for('ksj.index') }}">Deals & Discounts</a>
-                        <a href="{{ url_for('ssm.index') }}">Tips & Guides</a>
-                        <a href="{{ url_for('csm.index') }}">Game News</a>
-                        <a href="{{ url_for('hyl.qna') }}">Q&A Corner</a>
+                        <a href="http://127.0.0.1:5002/discounts">Discounts</a>
+                        <a href="http://127.0.0.1:5003/guide">Tips & Guides</a>
+                        <a href="http://127.0.0.1:5004/news">Game News</a>
+                        <a href="http://127.0.0.1:5005/qa">Q&A Corner</a>
                         <hr> <!-- 구분선 -->
-                        <a href="{{ url_for('hjw.index') }}">Login</a>
-                        <a href="{{ url_for('hjw.signup') }}">Sign up</a>
+                        <a href="http://127.0.0.1:5006/login">Login</a>
+                        <a href="http://127.0.0.1:5006/register">Sign up</a>
                     </div>
                 </div>
         </div>
@@ -60,7 +60,7 @@
     <main>
 
     <!-- 타임딜 홍보 영역 -->
-    <a href="{{ url_for('ksj.timedeal') }}" class="time-deal-link">
+    <a href="#" class="time-deal-link">
         
         <section class="time-deal-section">
             <img src="{{ url_for('static', filename='images/main-hyl.jpg') }}" alt="Time Deal Background" class="time-deal-image">

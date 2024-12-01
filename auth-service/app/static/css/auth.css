@@ -11,14 +11,8 @@
     margin-top: 50px;
 }
 
-.app-title {
-    font-size: 24px;
-    color: #007bff;
-    margin-bottom: 10px;
-}
-
 .login-title {
-    font-size: 18px;
+    font-size: 2vh;
     color: #333333;
     margin-bottom: 20px;
 }
@@ -50,11 +44,11 @@ input {
 
 input:focus {
     outline: none;
-    border-color: #007bff;
+    border-color: #333333; /* 검정 계열 */
 }
 
 .login-btn {
-    background-color: #007bff;
+    background-color: #333333; /* 검정 계열 */
     color: #ffffff;
     border: none;
     padding: 10px;
@@ -64,7 +58,7 @@ input:focus {
 }
 
 .login-btn:hover {
-    background-color: #0056b3;
+    background-color: #1a1a1a; /* 더 어두운 검정 */
 }
 
 .signup-link {
@@ -74,7 +68,7 @@ input:focus {
 }
 
 .signup-link a {
-    color: #007bff;
+    color: #333333; /* 검정 계열 */
     text-decoration: none;
 }
 
@@ -113,7 +107,7 @@ input:focus {
 }
 
 .signup-btn {
-    background-color: #007bff;
+    background-color: #333333; /* 검정 계열 */
     color: white;
     padding: 10px;
     border: none;
@@ -123,5 +117,5 @@ input:focus {
 }
 
 .signup-btn:hover {
-    background-color: #0056b3;
+    background-color: #1a1a1a; /* 더 어두운 검정 */
 }

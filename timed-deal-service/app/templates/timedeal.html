@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Time Deal{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/timedeal.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="coupon-container">
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Soldesk Gaming 게임 할인</h1>
+        <p class="text-center text-muted">Time-Limited Coupons</p>
+
+        <!-- 쿠폰 정보 -->
+        <div class="card mx-auto" style="max-width: 400px;">
+            <div class="card-body text-center">
+                <h2 class="card-title">70% 할인 쿠폰</h2>
+                <p class="text-muted">남은 쿠폰 수량: {{ remaining_coupons }}</p>
+                <p class="text-muted">리셋 시간: {{ reset_time }}</p>
+
+                <!-- 쿠폰 받기 버튼 -->
+                <button id="getCoupon" class="btn btn-dark btn-lg w-100 mb-3">
+                    쿠폰 받기
+                </button>
+
+                <!-- 쿠폰 코드 및 복사 버튼 -->
+                <div id="couponDetails" style="display: none;">
+                    <div class="alert alert-success" role="alert">
+                        <strong id="couponCode"></strong>
+                    </div>
+                    <button id="copyCoupon" class="btn btn-secondary btn-sm w-100">
+                        복사하기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 쿠폰 받기 버튼 클릭
+    document.getElementById('getCoupon').addEventListener('click', function () {
+        fetch('/timedeal/coupon', { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.coupon) {
+                    document.getElementById('couponCode').innerText = data.coupon;
+                    document.getElementById('couponDetails').style.display = 'block';
+                    this.disabled = true;
+                    this.innerText = '쿠폰 발급 완료';
+                } else if (data.error) {
+                    alert(data.error);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
+    // 복사 버튼 클릭
+    document.getElementById('copyCoupon').addEventListener('click', function () {
+        const couponCode = document.getElementById('couponCode').innerText;
+        navigator.clipboard.writeText(couponCode).then(() => {
+            alert('쿠폰 코드가 복사되었습니다!');
+        }).catch(err => {
+            console.error('복사 실패:', err);
+        });
+    });
+</script>
+{% endblock %}

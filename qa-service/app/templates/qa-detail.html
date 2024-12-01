@@ -1,0 +1,16 @@
+<!-- templates/qa-detail.html -->
+{% extends "base.html" %}
+
+{% block title %}질문 상세 보기{% endblock %}
+
+{% block content %}
+<div class="qa-detail-container">
+    <h1>{{ question.title }}</h1>
+    <p>작성자: {{ question.author }}</p>
+    <p>조회수: {{ question.views }}</p>
+    <div class="qa-content">
+        <p>{{ question.content }}</p>
+    </div>
+    <a href="{{ url_for('qa.index') }}">질문 목록으로 돌아가기</a>
+</div>
+{% endblock %}
