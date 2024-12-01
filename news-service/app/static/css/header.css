@@ -1,0 +1,457 @@
+/* ----------- 헤더 전체 영역 스타일 ----------- */
+.time-deal-section,
+.search-filter-section {
+    width: 100%;
+    box-sizing: border-box; /* padding과 margin이 width에 포함되도록 설정 */
+    margin: 0 auto;
+}
+
+/* ----------- 네비게이션 스타일 ----------- */
+.custom-navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0);
+    z-index: 1000;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.custom-navbar-contents {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0px 30px;
+}
+
+/* ----------- 헤더 영역별 스타일 ----------- */
+.header-box {
+    width: 20%;
+}
+
+.header-box:nth-child(2) {
+    width: 60%;
+}
+
+.header-box:nth-child(2) {
+    display: flex !important;
+    justify-content: center;
+}
+
+.header-box:nth-child(3) {
+    display: flex !important;
+    justify-content: right;
+}
+
+
+/* ----------- 타이틀 스타일 ----------- */
+/* 로고*/
+.brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+}
+
+.brand-title {
+      position: relative;
+  /* background: #f8f8f8; */
+  width: 100%;
+  max-width: 500px;
+  /* padding: 1em; */
+  /* margin: 1em auto; */
+}
+
+.brand-title a {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    font-family: "Raleway", sans-serif;
+    font-weight: 300;
+    font-size: 30px;
+    color: #ffffff;
+    -webkit-transition: all 0.4s ease 0s;
+    -o-transition: all 0.4s ease 0s;
+    transition: all 0.4s ease 0s;
+
+    text-transform: capitalize;
+}
+
+.brand-title a::before {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 60px;
+    height: 2px;
+    content: "";
+    background-color: #ffffff;
+}
+
+.brand-title a span {
+    display: block;
+    font-size: 10px;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    line-height: 2em;
+    padding-left: 0.25em;
+    color: rgba(255, 255, 255, 0.603);
+    padding-bottom: 10px;
+}
+
+.site-logo {
+    width: 40px; /* 로고 크기 조정 */
+    height: auto;
+    margin-right: 4px;
+    margin-bottom: 2px;
+}
+
+/* ----------- 왼쪽 네비게이션 메뉴 스타일 ----------- */
+.custom-nav-menu {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.custom-nav-link {
+    padding: 10px;
+    font-size: 2.3vh;
+    color: white !important;
+    text-decoration: none;
+    font-family: 'intelone-mono-font-family-italic';
+    font-weight: 300;
+}
+
+/* 카테고리 hover 그림자 효과 */
+.custom-nav-link:hover { 
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 
+                            0 0 15px rgba(134, 46, 185, 0.6);
+}
+
+/* ----------- 로그인 및 회원가입 버튼 스타일 ----------- */
+.nav-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 1;
+}
+
+.navbtn {
+    outline: none;
+    width: 130px;
+    height: 40px;
+    padding: 10px 25px;
+    border: 2px solid #000;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    border-radius: 10px;
+
+    font-weight: bold;
+    font-size: 1.5vh;
+    font-family: 'intelone-mono-font-family-italic';
+
+    background: #fff;
+    color: #000;
+    padding: 0;
+}
+
+.navbtn:hover {
+    background: #000;
+    color: #fff;
+    border-radius: 10px;
+    box-shadow:
+    -7px -7px 20px 0px #0009,
+    -4px -4px 5px 0px #0009,
+    7px 7px 20px 0px #fff2,
+    4px 4px 5px 0px #fff1;
+}
+
+.navbtn::before, .navbtn::after {
+    content:'';
+    position:absolute;
+    top:0;
+    right:0;
+    height:2px;
+    width:0;
+    background: #000;
+    transition:400ms ease all
+}
+
+.navbtn::after {
+    right:inherit;
+    top:inherit;
+    left:0;
+    bottom:0;
+}
+
+.navbtn:hover::before, .navbtn:hover::after {
+    width:100%;
+    background: #fff;
+    border-radius: 10px;
+    transition:800ms ease all;
+}
+
+/* ----------- 타임딜 영역 스타일 ----------- */
+.time-deal-link {
+    display: block;
+    text-decoration: none; 
+    color: inherit;
+}
+
+.time-deal-link:hover {
+    cursor: pointer; 
+    filter: brightness(0.9); 
+}
+
+.time-deal-section {
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: 70vh; /* 섹션 높이를 조절하여 검색창과 겹치도록 함 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    text-align: center;
+    color: white;
+}
+
+/* 타임딜 글씨 */
+.large-heading {
+    font-size: 5vw;
+    font-weight: 700;
+    font-family: 'intelone-mono-font-family-italic';
+    color: #ffffff;
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.4);
+    white-space: normal; 
+    overflow-wrap: break-word;
+    border-right: 1px solid #ffffff;
+    display: inline-block;
+    animation: blink-caret 0.7s step-end infinite;
+}
+
+/* 이미지 설정 */
+.time-deal-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    top: 0;
+    z-index: -1;
+    animation: move-background 20s ease-in-out infinite;
+    filter: brightness(0.7);
+}
+
+/* 배경 이미지가 부드럽게 움직이는 애니메이션 */
+@keyframes move-background {
+    0% { transform: scale(1.1) translateX(-10px); }
+    50% { transform: scale(1.2) translateX(10px); }
+    100% { transform: scale(1.1) translateX(-10px); }
+}
+
+/* 가운데 글씨 설정 */
+.center-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* 서브 텍스트 */
+.tag-flex {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 20px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-wrap: wrap; 
+}
+
+/* 타이틀 설정 */
+.custom-title {
+    font-size: 2.5vw;
+    font-weight: bold;
+    color: #ffffff;
+    font-family: 'intelone-mono-font-family-italic';
+    display: flex;
+    gap: 0.3rem;
+}
+
+.letter {
+    opacity: 0;
+    transform: translateY(-50px);
+    animation: drop-in 0.8s forwards ease-out;
+}
+
+/* 서브 텍스트 애니메이션 */
+@keyframes drop-in {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* 깜빡이는 커서 애니메이션 */
+@keyframes blink-caret {
+    30% {
+        border-color: transparent;
+    }
+}
+
+/* 반응형 */
+@media screen and (max-width: 991px) {
+    .nav-menu {
+        display: none;
+    }
+    .navbar-contents {
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .large-heading {
+        font-size: 12vw;
+    }
+    .tag-flex {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* ----------- 전체 검색창 영역 스타일 ----------- */
+.search-filter-section {
+    position: relative;
+    width: 80%; 
+    margin: -10px auto;
+    padding: 20px 20px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-radius: 20px; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+/* 검색창 스타일 */
+.search-bar-container {
+    display: flex;
+    align-items: center;
+    flex-grow: 2;
+}
+
+.search-bar {
+    width: 100%;
+    padding: 10px;
+    padding-left: 20px;
+    border: 1px solid #ddd;
+    border-radius: 20px 0 0 20px;
+    outline: none;
+    color: #333;
+    font-size: 1.8vh;
+    font-family: 'intelone-mono-font-family-italic';
+}
+
+.search-button {
+    padding: 10px 40px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 0 20px 20px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1.8vh;
+    font-weight: bold;
+    font-family: 'intelone-mono-font-family-italic';
+}
+
+.search-button:hover {
+    background-color: #260c35;
+}
+
+/* ----------- 햄버거 메뉴 스타일 ----------- */
+
+.hamburger-menu {
+    display: none; /* 기본적으로 숨김 */
+    position: relative;
+    z-index: 1000;
+}
+
+.hamburger-menu-btn {
+    background: none;
+    border: none;
+    font-size: 32px; /* 버튼 크기 조정 */
+    color: white;
+    cursor: pointer;
+}
+
+.hamburger-dropdown-menu {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    width: 250px; /* 가로 길이 확장 */
+    background-color: #141414;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    border: 1px solid white;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.hamburger-dropdown-menu a {
+    color: white;
+    text-decoration: none;
+}
+
+.hamburger-dropdown-menu a:hover {
+    /* background-color: rgba(48, 48, 48, 0.2); */
+    font-weight: bold;
+}
+
+.hamburger-dropdown-menu a {
+    color: white;
+    background: none;
+    border: none;
+    text-align: left;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.hamburger-dropdown-menu.hidden {
+    display: none; /* 숨김 상태 */
+}
+
+.hamburger-dropdown-menu hr {
+    height: 1px;
+    margin: 1px;
+    background-color: white;
+}
+
+
+/* ----------- 반응형 레이아웃 ----------- */
+@media (max-width: 1280px) {
+    .custom-nav-link,
+    .navbtn {
+        display: none; /* 네비게이션 숨김 */
+    }
+
+    .hamburger-menu {
+        display: block; /* 햄버거 메뉴 표시 */
+    }
+
+    .letter {
+        font-size: 14px; /* 작은 화면에서 글씨 크기 조정 */
+    }
+}

@@ -1,0 +1,92 @@
+<!-- templates/header.html -->
+<div class="page-wrap">
+    <header class="custom-navbar">
+        <div class="custom-navbar-contents">
+            
+                <!-- 로고 영역 -->
+                <div class="header-box">
+                    <div class="brand">
+                        <div class="brand-title">
+                            <a href="http://127.0.0.1:5001/">
+                                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="GAMCAVE Logo" class="site-logo">
+                                Game-Archive 
+                                    <span>Soldesk 803 Game Community</span>
+                            </a>
+                            </div>
+                    </div>
+                </div>
+
+                <div class="header-box">
+
+                    <!-- 네비게이션 영역 -->
+                    <nav class="custom-nav-menu">
+                        <a href="http://127.0.0.1:5002/discounts" class="custom-nav-link">Discounts</a>
+                        <a href="http://127.0.0.1:5003/guides" class="custom-nav-link">Tips & Guides</a>
+                        <a href="http://127.0.0.1:5004/news" class="custom-nav-link">Game News</a>
+                        <a href="http://127.0.0.1:5005/qa" class="custom-nav-link">Q&A Corner</a>
+                    </nav>
+                </div>
+
+                <!-- 로그인 및 회원가입 버튼 -->
+                <div class="header-box">
+                    <div class="custom-nav-right buttons">
+                        <button class="navbtn" id="loginButton" data-url="#">
+                            Login
+                        </button>
+                    </div>
+                    <div class="custom-nav-right buttons">
+                        <button class="navbtn" id="signupButton" data-url="#">
+                            Sign Up
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 햄버거 메뉴 -->
+                <div class="hamburger-menu" id="hamburgerMenu">
+                    <button id="hamburger-menuToggle" class="hamburger-menu-btn">☰</button>
+                    <div class="hamburger-dropdown-menu hidden" id="hamburger-dropdownMenu">
+                        <a href="http://127.0.0.1:5002/discounts">Discounts</a>
+                        <a href="http://127.0.0.1:5003/guides">Tips & Guides</a>
+                        <a href="http://127.0.0.1:5004/news">Game News</a>
+                        <a href="http://127.0.0.1:5005/qa">Q&A Corner</a>
+                        <hr> <!-- 구분선 -->
+                        <a href="http://127.0.0.1:5006/login">Login</a>
+                        <a href="http://127.0.0.1:5006/signup">Sign up</a>
+                    </div>
+                </div>
+        </div>
+    </header>
+
+    <main>
+
+    <!-- 타임딜 홍보 영역 -->
+    <a href="#" class="time-deal-link">
+        
+        <section class="time-deal-section">
+            <img src="{{ url_for('static', filename='images/main-hyl.jpg') }}" alt="Time Deal Background" class="time-deal-image">
+            <div class="center-content center-text">
+                <div class="tag-flex">
+                    <div class="custom-title" id="subtitle">
+                    </div>
+                </div>
+                <h1 class="large-heading" id="typewriter"></h1>
+    
+                <p class="reset-time">
+                    Coupons reset at: {{ reset_time }}
+                </p>
+            </div>
+        </section>
+        
+    </a>
+    <!-- 검색창 영역 -->
+    <div class="search-filter-section">
+    <!-- 검색창과 필터 아이콘 -->
+    <div class="search-bar-container">
+        <input type="text" class="search-bar" placeholder="Search for guides, posts, and more...">
+        <button class="search-button">Search</button>
+    </div>
+
+     </div>
+     
+     </main>
+ </div>

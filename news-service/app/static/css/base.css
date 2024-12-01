@@ -1,0 +1,40 @@
+/* ----------- 폰트 목록 ----------- */
+@import url('//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+* {
+    font-family: 'Pretendard-Regular';
+}
+
+/* ----------- 기본 스타일 ----------- */
+body {
+    background: white;
+    color: white;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+/* ----------- 하이퍼링크 스타일 ----------- */
+a {
+    text-decoration: none !important;
+}
+a:hover {
+    text-decoration: none;
+}
+
+/* ----------- 게시판 영역 스타일 ----------- */
+.board-container {
+    position: relative;
+    width: 80%; 
+    margin: 0 auto; 
+    padding: 30px 0; 
+}

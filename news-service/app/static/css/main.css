@@ -1,0 +1,454 @@
+/* ----------- 메인 스타일 ----------- */
+
+.board-section {
+    width: 100%;
+}
+
+.news-section {
+    display: flex;
+    height: 600px;
+}
+
+.news-list {
+    /* width: 30%;
+    margin: 20px auto;
+    padding: 10px 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-left: 30px; */
+    width: 100%; /* 부모 컨테이너의 너비에 맞춤 */
+    max-width: 400px; /* 최대 너비 제한 */
+    margin: 20px auto; /* 가운데 정렬 */
+    padding: 15px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background-color: white; /* 배경색 추가 */
+    box-sizing: border-box;
+}
+.news-list h1 {
+    margin: 10px 10px 20px 10px;
+
+}
+.news-list h1 a {
+    color: black !important;
+    font-family: 'intelone-mono-font-family-italic';
+    font-size: 30px;
+    font-weight: bold;
+}
+.olcards,
+.olcards * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.olcards {
+  list-style: none;
+  counter-reset: cardCount;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  --cardsGap: 1rem;
+  gap: var(--cardsGap);
+  padding-bottom: var(--cardsGap);
+}
+.olcards li {
+    counter-increment: cardCount;
+    display: flex;
+    color: white;
+    --labelOffset: 1rem;
+    --arrowClipSize: 1.5rem;
+    /* margin-top: var(--labelOffset); */
+    --cardColor: #0f0f0f;
+    box-sizing: border-box; /* 패딩 포함 */
+    width: 100%; /* 부모 컨테이너 너비에 맞춤 */
+}
+
+.olcards li::before {
+    content: counter(cardCount, decimal-leading-zero);
+    background: white;
+    color: var(--cardColor);
+    font-size: 2em;
+    font-weight: 700;
+    transform: translateY(calc(-1 * var(--labelOffset)));
+    margin-right: calc(-1 * var(--labelOffset));
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-inline: 0.5em;
+}
+
+.olcards li .content {
+    background-color: var(--cardColor);
+    --inlinePadding: 1em;
+    --boxPadding: 0.5em;
+    display: grid;
+    padding: var(--boxPadding) calc(var(--inlinePadding) + var(--arrowClipSize))
+    var(--boxPadding) calc(var(--inlinePadding) + var(--labelOffset));
+    grid-template-columns: 50px 1fr;
+    grid-template-areas:
+    "icon title"
+    "icon text";
+    gap: 0.25em 1em;
+  clip-path: polygon(
+      0 0,
+      calc(100% - var(--arrowClipSize)) 0,
+      100% 50%,
+      calc(100% - var(--arrowClipSize)) 100%,
+      calc(100% - var(--arrowClipSize)) calc(100% + var(--cardsGap)),
+      0 calc(100% + var(--cardsGap))
+      );
+      position: relative;
+      width: 100%;
+      
+    }
+    .olcards li .content::before {
+        content: "";
+        position: absolute;
+        width: var(--labelOffset);
+        height: var(--labelOffset);
+        background: var(--cardColor);
+        left: 0;
+        bottom: 0;
+        clip-path: polygon(0 0, 100% 0, 0 100%);
+        filter: brightness(0.75);
+    }
+.olcards li .content::after {
+  content: "";
+  position: absolute;
+  height: var(--cardsGap);
+  width: var(--cardsGap);
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.25), transparent 50%);
+  left: 0;
+  top: 100%;
+}
+.olcards li .icon {
+    grid-area: icon;
+    align-self: center;
+    font-size: 2em;
+}
+.olcards li .content .title {
+    grid-area: title;
+    font-size: 1.25em;
+    width: 100%;
+    font-weight: 700;
+}
+.olcards li .content .text {
+    grid-area: text;
+}
+
+/* 슬라이더 컨테이너 스타일 */
+.image-slider {
+    position: relative;
+    width: 70%;
+    /* height: 700px; */
+    margin: 20px auto;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 슬라이더 이미지 */
+.slider-image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: fill;
+}
+
+.slide {
+    position: relative;
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+
+/* 현재 슬라이드 표시 */
+.slide.active {
+    display: block;
+    height: 100%;
+}
+
+.slide-text {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 15px 20px;
+    border-radius: 8px;
+    max-width: 70%; 
+}
+
+.slide-text h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    line-height: 1.2;
+}
+
+.slide-text p {
+    font-size: 1rem;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* ----------- 게임 할인 비교 영역 스타일 ----------- */
+/* 할인 섹션 */
+.game-discount-section {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin: 50px 0;
+    padding: 20px;
+    background-color: #f8f9fa;
+
+    position: relative;
+}
+
+/* 할인 섹션 제목 및 펼쳐보기 버튼 컨테이너 */
+.game-discount-header {
+    display: flex; /* 제목과 버튼을 같은 줄에 정렬 */
+    justify-content: space-between; /* 양 끝으로 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+    margin-bottom: 20px;
+}
+
+/* 제목 스타일 */
+.game-discount-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+    flex-grow: 1; /* 제목이 공간을 차지하도록 설정 */
+    margin: 0; /* 여백 제거 */
+    text-align: center; /* 가운데 정렬 */
+}
+
+/* 펼쳐보기 버튼 */
+.game-discount-more {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #3f3f3f !important;
+    text-decoration: none;
+    white-space: nowrap;
+    margin-left: auto;
+    margin-right: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.game-discount-more:hover {
+    text-decoration: underline;
+}
+
+/* 그리드 레이아웃 */
+.game-discount-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-items: center;
+    transition: all 0.3s ease;
+}
+
+/* 카드 스타일 */
+.game-discount-card {
+    width: 300px;
+    max-width: 300px;
+    height: 300px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.game-discount-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.game-discount-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    background-color: #f0f0f0;
+}
+
+.game-discount-info {
+    padding: 10px;
+    text-align: center;
+}
+
+.game-discount-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 10px 0;
+    color: #333333;
+}
+
+.game-discount-prices {
+    margin: 5px 0;
+    font-size: 1rem;
+}
+
+.game-original-price {
+    color: #888888;
+    font-size: 0.9rem;
+    margin-right: 10px;
+}
+
+.game-final-price {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.game-discount-badge {
+    display: inline-block;
+    background-color: #e74c3c;
+    color: #ffffff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+/* 게임 할인 관련 반응형 레이아웃 */
+@media (max-width: 1280px) {
+    .game-discount-card {
+        width: 250px;
+        max-width: 250px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .game-discount-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2열 */
+        gap: 15px;
+    }
+
+    .game-discount-card {
+        width: 250px;
+        max-width: 250px;
+    }
+}
+
+@media (max-width: 576px) {
+    .game-discount-grid {
+        display: block; /* 줄글 형태로 전환 */
+    }
+
+    .game-discount-card {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        width: 380px;
+        max-width: 380px;
+        max-height: 150px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: none;
+    }
+
+    .game-discount-image {
+        width: 100px;
+        height: 100px;
+        border-radius: 5px;
+    }
+
+    .game-discount-info {
+        text-align: left;
+    }
+
+    .game-discount-name {
+        font-size: 1rem;
+        margin-bottom: 5px;
+    }
+
+    .game-final-price {
+        font-size: 0.9rem;
+    }
+
+    .game-original-price {
+        font-size: 0.8rem;
+    }
+
+    .game-discount-badge {
+        font-size: 0.8rem;
+        margin-top: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-discount-card {
+        width: 250px;
+        max-width: 250px;
+        max-height: 150px;
+    }
+
+}
+
+
+/* ----------- 반응형 레이아웃 추가 ----------- */
+
+@media (max-width: 1280px) {
+    .news-section {
+        flex-direction: column; /* 세로로 나열 */
+        height: auto; /* 높이 자동 조정 */
+    }
+
+    .image-slider {
+        width: 100%; /* 슬라이더를 상단으로 */
+        margin: 0 auto 20px;
+    }
+
+    .news-list {
+        width: 100%; /* 뉴스 리스트를 하단으로 */
+        margin: 0 auto;
+        padding: 10px 15px;
+        max-width: 950px;
+    }    
+}
+    
+
+/* 1024px 이하 (PC 2분할 화면부터) */
+@media (max-width: 1024px) {
+    .news-section {
+        flex-direction: column; /* 세로로 나열 */
+        height: auto; /* 높이 자동 조정 */
+    }
+
+    .image-slider {
+        width: 100%; /* 슬라이더를 상단으로 */
+        margin: 0 auto 20px;
+    }
+
+    .news-list {
+        width: 100%; /* 뉴스 리스트를 하단으로 */
+        margin: 0 auto;
+        padding: 10px 15px;
+        max-width: 800px;
+    }
+}
+
+/* 모바일 화면 (576px 이하) */
+@media (max-width: 576px) {
+    .news-list {
+        padding: 10px 10px; /* 더 작은 패딩 */
+    }
+
+    .search-filter-section {
+        flex-direction: column; /* 검색 필터 세로 정렬 */
+        gap: 10px;
+    }
+
+    .search-bar-container {
+        width: 100%;
+    }
+
+    .hyl-filter-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+

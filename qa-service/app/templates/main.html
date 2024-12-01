@@ -1,0 +1,120 @@
+<!-- templates/main.html -->
+{% extends 'base.html' %}
+
+{% block title %}Home - Game Achive{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="board-section">
+    <!-- 슬라이드쇼 추가 -->
+    <div class="news-section">
+        <div class="image-slider">
+            <div class="slide">
+                <img src="{{ url_for('static', filename='images/slide1.jpg') }}" alt="Slide 1" class="slider-image">
+                <div class="slide-text">
+                    <h2>Game News Title 1</h2>
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing</p>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="{{ url_for('static', filename='images/slide2.jpg') }}" alt="Slide 1" class="slider-image">
+                <div class="slide-text">
+                    <h2>Game News Title 2</h2>
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing</p>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="{{ url_for('static', filename='images/slide3.jpg') }}" alt="Slide 1" class="slider-image">
+                <div class="slide-text">
+                    <h2>Game News Title 3</h2>
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing</p>
+                </div>
+            </div>
+        </div>
+        <div class="news-list">
+            <h1>
+                <a href="#">Hot Game News</a>
+            </h1>
+            <ol class="olcards">
+                <li>
+                    <div class="content">
+                        <div class="icon">🥞</div>
+                        <div class="title">Lorem Ipsum</div>
+                        <div class="text">1 hours ago</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="content">
+                        <div class="icon">🚕</div>
+                        <div class="title">Lorem Ipsum</div>
+                        <div class="text">3 hours ago</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="content">
+                        <div class="icon">😸</div>
+                        <div class="title">Lorem Ipsum</div>
+                        <div class="text">4 hours ago</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="content">
+                        <div class="icon">🦉</div>
+                        <div class="title">Lorem Ipsum</div>
+                        <div class="text">2 days ago</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="content">
+                        <div class="icon">🤗</div>
+                        <div class="title">Lorem Ipsum</div>
+                        <div class="text">3 days ago</div>
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<!-- 최신 게임 할인 비교 -->
+<div class="game-discount-section">
+    <div class="game-discount-header">
+        <h2 class="game-discount-title">🔍 Featured Game Discounts</h2>
+        <a href="{{ url_for('ksj.index') }}" class="game-discount-more">>></a>
+    </div>
+    <div class="game-discount-grid">
+        {% for game in highlighted_games %}
+        <a href="https://store.steampowered.com/app/{{ game.id }}" target="_blank" class="game-discount-link">
+            <div class="game-discount-card">
+                <img
+                    src="{{ game.image_url or url_for('static', filename='images/default_game.jpg') }}"
+                    alt="{{ game.name }}"
+                    class="game-discount-image"
+                />
+                <div class="game-discount-info">
+                    <h3 class="game-discount-name">{{ game.name }}</h3>
+                    <p class="game-discount-prices">
+                        {% if game.original_price %}
+                        <span class="game-original-price"><s>{{ game.original_price }}</s></span>
+                        {% endif %}
+                        <span class="game-final-price">{{ game.final_price }}</span>
+                    </p>
+                    {% if game.discount_percent %}
+                    <span class="game-discount-badge">{{ game.discount_percent }}% OFF</span>
+                    {% endif %}
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/hyl-js/main.js') }}"></script>
+{% endblock %}
