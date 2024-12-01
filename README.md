@@ -86,3 +86,51 @@
 | 클라우드 전환 준비   | 🔄 예정 단계 (Terraform 활용) |
 
 **Game Archive**는 팀 아카이브의 열정과 기술력으로 지속적으로 발전해나갈 것입니다! 🚀
+
+# 🚀 Git 사용 가이드
+
+이 문서는 **Game Archive 프로젝트**에서 Git을 올바르게 사용하는 방법을 안내합니다. 모든 팀원은 이 지침을 따라 Git을 활용해주세요.
+
+---
+
+## **1️⃣ 프로젝트 클론하기**
+
+프로젝트 작업을 시작하기 전에, GitHub에서 프로젝트를 자신의 로컬 환경으로 복사합니다.
+
+1. **터미널을 열고 작업 디렉토리로 이동**
+   ```bash
+   cd /path/to/your/workspace
+
+2. **GitHub에서 프로젝트 클론**
+   ```bash
+   git clone https://github.com/yurimheo/game-archive-flask-msa-k8s-Iac.git
+
+3. **프로젝트 디렉토리로 이동**
+   ```bash
+   cd game-archive-flask-msa-k8s-Iac
+
+## **2️⃣ 브랜치 생성 및 사용법**
+
+### **💡 브랜치 네이밍 규칙**
+- 각 팀원은 자신의 **이니셜**과 작업 내용을 활용한 브랜치를 사용합니다.
+- 브랜치 이름 형식:  
+  - **`feature/<이니셜>/<작업내용>`**
+  - 예: `feature/hjw/login-function`
+
+---
+
+### **브랜치 생성 방법**
+
+1. **현재 브랜치 확인**
+   현재 작업 중인 브랜치를 확인합니다:
+   ```bash
+   git branch
+
+2. **새 브랜치 생성**
+   작업할 새로운 브랜치를 생성하고 해당 브랜치로 이동합니다:
+   ```bash
+   git checkout -b feature/<이니셜>/<작업내용>
+   # 예: git checkout -b feature/hjw/login-function
+
+
+
