@@ -13,15 +13,10 @@ Game Archive는 게임 커뮤니티 사용자들이 더 쉽게 소통하고 정�
 ## 🚀 핵심 목표
 
 1️⃣ Kubernetes 클러스터 구축
-
 2️⃣ Flask 기반의 마이크로서비스 애플리케이션 개발
-
 3️⃣ AWS 클라우드 전환과 Terraform/Ansible을 활용한 인프라 자동화
-
 4️⃣ CI/CD 파이프라인 도입 (GitHub Actions + Harbor)
-
 5️⃣ Prometheus와 Grafana를 활용한 모니터링 및 대시보드 구축
-
 6️⃣ 게시판 CRUD 최적화 및 JWT 인증 체계 구현
 
 # 📌 프로젝트 범위
