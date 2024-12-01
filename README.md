@@ -132,5 +132,33 @@
    git checkout -b feature/<이니셜>/<작업내용>
    # 예: git checkout -b feature/hjw/login-function
 
+3. **작업 후 변경 사항 커밋**
+   작업한 내용을 저장소에 반영합니다:
+   ```bash
+   git add .
+   git commit -m "작업 내용을 설명하는 커밋 메시지"
+   # 예: git commit -m "Add login function for user authentication"
 
+4. **원격 저장소로 브랜치 푸시**
+   로컬에서 생성한 브랜치를 GitHub 원격 저장소에 업로드합니다:
+   ```bash
+   git push origin feature/<이니셜>/<작업내용>
+   # 예: git push origin feature/hjw/login-function
 
+---
+
+### **`develop` 브랜치 본인 브랜치로 옮기기**
+
+작업 전 최신 코드를 유지하기 위해 `develop` 브랜치의 내용을 본인의 작업 브랜치로 가져오는 과정을 설명합니다.
+
+1. **`develop` 브랜치로 이동**
+   ```bash
+   git checkout develop
+   # 1. 현재 브랜치를 develop으로 전환
+   # 2. develop 브랜치에서 작업 내용을 가져오기 위함
+
+2. **`develop` 브랜치 최신 상태로 업데이트**
+  ```bash
+  git pull origin develop
+  # 1. 원격 저장소의 develop 브랜치를 로컬로 가져옴
+  # 2. 최신 상태의 develop 브랜치를 확보
