@@ -20,7 +20,9 @@ Game Archive는 게임 커뮤니티 사용자들이 더 쉽게 소통하고 정�
 ## 🛠️ 프로젝트 준비 단계
 
 ✅ 기초 인프라 설계: 온프레미스 환경에서 Kubernetes 클러스터 설계를 계획 중입니다.
+
 ✅ 애플리케이션 프로토타입: Flask와 MySQL 기반의 간단한 애플리케이션 구조 설계 중.
+
 ✅ CI/CD 도입 준비: GitHub Actions와 Docker Registry(Harbor)로 파이프라인 설계 예정.
 
 # 🔍 기대 효과
