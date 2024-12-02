@@ -1,4 +1,6 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from flask import Blueprint, render_template, request, redirect, url_for, flash, make_response
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from datetime import timedelta
 
 # 블루프린트 생성
 auth_blueprint = Blueprint(
@@ -17,15 +19,12 @@ def login():
         password = request.form.get('password')
         # 임시 사용자 인증 로직
         if username == 'test' and password == 'password':
-            # 세션에 사용자 정보 저장
-            session['user'] = {
-                'username': username,
-                'email': 'test@example.com',
-                'join_date': '2024-01-01'
-            }
+            # JWT 생성
+            access_token = create_access_token(identity=username, expires_delta=timedelta(hours=1))
+            response = make_response(redirect("http://127.0.0.1:5001"))
+            response.set_cookie('access_token', access_token, httponly=True)
             flash('로그인 성공!', 'success')
-            # 메인 페이지로 이동
-            return redirect("http://127.0.0.1:5001")
+            return response
         flash('로그인 실패!', 'danger')
     # 로그인 페이지 렌더링
     return render_template('login.html')
@@ -57,19 +56,16 @@ def register():
     return render_template('register.html')
 
 # 마이페이지
-@auth_blueprint.route('/mypage')
+@auth_blueprint.route('/mypage', methods=['GET'])
+@jwt_required()
 def mypage():
-    if 'user' not in session:
-        # 로그인하지 않은 경우 로그인 페이지로 리디렉션
-        flash('로그인이 필요합니다.', 'warning')
-        return redirect(url_for('auth.login'))
-    # 세션에서 사용자 정보 가져오기
-    return render_template('mypage.html', user=session['user'])
-
+    current_user = get_jwt_identity()
+    return render_template('mypage.html', user={'username': current_user})
 
 # 로그아웃 라우트
 @auth_blueprint.route('/logout', methods=['POST'])  # POST 메서드 사용
 def logout():
-    session.pop('user', None)  # 세션에서 사용자 정보 제거
+    response = make_response(redirect(url_for('auth.login')))
+    response.delete_cookie('access_token')  # 쿠키에서 JWT 삭제
     flash('로그아웃 되었습니다.', 'info')  # 로그아웃 알림 메시지
-    return redirect(url_for('auth.login'))  # 로그인 페이지로 리다이렉트
+    return response
