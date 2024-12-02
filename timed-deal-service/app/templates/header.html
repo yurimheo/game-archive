@@ -27,18 +27,35 @@
                     </nav>
                 </div>
 
-                <!-- 로그인 및 회원가입 버튼 -->
                 <div class="header-box">
-                    <div class="custom-nav-right buttons">
-                        <button class="navbtn" id="loginButton" data-url="http://127.0.0.1:5006/login">
-                            Login
-                        </button>
-                    </div>
-                    <div class="custom-nav-right buttons">
-                        <button class="navbtn" id="signupButton" data-url="http://127.0.0.1:5006/register">
-                            Sign Up
-                        </button>
-                    </div>
+                    <!-- 로그인 상태에 따라 버튼 표시 -->
+                    {% if 'user' in session %}
+                        <!-- 로그인 상태: My Page와 Logout -->
+                        <div class="custom-nav-right buttons">
+                            <button class="navbtn" id="mypageButton" data-url="http://127.0.0.1:5006/mypage">
+                                My Page
+                            </button>
+                        </div>
+                        <div class="custom-nav-right buttons">
+                            <form action="http://127.0.0.1:5006/logout" method="POST">
+                                <button id="logoutButton" type="submit" class="navbtn">
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
+                    {% else %}
+                        <!-- 비로그인 상태: Login과 Sign Up -->
+                        <div class="custom-nav-right buttons">
+                            <button class="navbtn" id="loginButton" data-url="http://127.0.0.1:5006/login">
+                                Login
+                            </button>
+                        </div>
+                        <div class="custom-nav-right buttons">
+                            <button class="navbtn" id="signupButton" data-url="http://127.0.0.1:5006/register">
+                                Sign Up
+                            </button>
+                        </div>
+                    {% endif %}
                 </div>
 
                 <!-- 햄버거 메뉴 -->
@@ -60,7 +77,7 @@
     <main>
 
     <!-- 타임딜 홍보 영역 -->
-    <a href="#" class="time-deal-link">
+    <a href="http://127.0.0.1:5007/timedeal/" class="time-deal-link">
         
         <section class="time-deal-section">
             <img src="{{ url_for('static', filename='images/main-hyl.jpg') }}" alt="Time Deal Background" class="time-deal-image">
