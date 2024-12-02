@@ -1,5 +1,8 @@
 from app import create_app
 from views import qa_blueprint  # views.py를 import
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
 
 app = create_app()
 
