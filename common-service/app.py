@@ -2,12 +2,14 @@ import logging
 import threading
 import time
 import requests
-from flask import Flask, render_template
+from flask import Flask, render_template, session
 
 # Flask 앱 생성
 app = Flask(__name__,
             static_folder='static',
             template_folder='templates')
+
+app.secret_key = "your_secret_key_here"
 
 # 로깅 설정
 logging.basicConfig(level=logging.INFO)
