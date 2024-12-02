@@ -2,7 +2,7 @@ import logging
 import threading
 import time
 import requests
-from flask import Flask, render_template
+from flask import Flask, render_template, g, request
 
 # Flask 앱 생성
 app = Flask(__name__,
@@ -12,10 +12,34 @@ app = Flask(__name__,
 # 로깅 설정
 logging.basicConfig(level=logging.INFO)
 
+
+# auth-service URL
+AUTH_SERVICE_URL = "http://127.0.0.1:5006/check-login"
+
+
 # 캐싱을 위한 전역 변수
 cached_games = []
 cache_expiry = 0
 cache_lock = threading.Lock()
+
+
+# 로그인 상태 확인
+@app.before_request
+def check_login_status():
+    """auth-service를 통해 로그인 상태 확인"""
+    g.user = None  # 기본값 설정
+    try:
+        # auth-service에 요청
+        response = requests.get(AUTH_SERVICE_URL, cookies=request.cookies)
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("logged_in"):
+                g.user = {"username": data.get("username")}  # 사용자 정보 저장
+        app.logger.info(f"현재 g.user 값: {g.user}")  # 로그인 상태 확인용 로그
+    except Exception as e:
+        app.logger.error(f"로그인 상태 확인 실패: {e}")
+
+
 
 # Steam 게임 데이터 가져오기
 def get_games():

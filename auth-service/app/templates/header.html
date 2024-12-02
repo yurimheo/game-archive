@@ -29,7 +29,7 @@
 
                 <div class="header-box">
                     <!-- 로그인 상태에 따라 버튼 표시 -->
-                    {% if 'user' in session %}
+                    {% if g.user %}
                         <!-- 로그인 상태: My Page와 Logout -->
                         <div class="custom-nav-right buttons">
                             <button class="navbtn" id="mypageButton" data-url="http://127.0.0.1:5006/mypage">
