@@ -2,7 +2,8 @@
 {% block title %}마이페이지{% endblock %}
 {% block content %}
 <h1>마이페이지</h1>
-<p>사용자명: {{ user.username }}</p>
+<p>아이디: {{ user.username }}</p>
 <p>이메일: {{ user.email }}</p>
 <p>가입일: {{ user.join_date }}</p>
+<a href="{{ url_for('auth.logout') }}" class="btn btn-primary">로그아웃</a>
 {% endblock %}
