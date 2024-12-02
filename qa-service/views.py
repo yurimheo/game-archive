@@ -1,40 +1,34 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
+from models import SessionLocal, Question
 
-# 블루프린트 정의
 qa_blueprint = Blueprint(
     'qa',
     __name__,
-    template_folder='app/templates',  # 템플릿 경로
-    static_folder='app/static'        # 정적 파일 경로
+    template_folder='app/templates',
+    static_folder='app/static'
 )
-
 
 # 질문 목록 페이지
 @qa_blueprint.route('/qa')
 def index():
-     # 인기 질문 데이터 예제
-    popular_questions = [
-        {"id": 101, "title": "게임 속성 변경 방법은?", "author": "PlayerOne", "views": 320},
-        {"id": 102, "title": "최고의 캐릭터 빌드는?", "author": "GamerGirl", "views": 250},
-        {"id": 103, "title": "서버 오류가 발생했어요. 해결법은?", "author": "TechMaster", "views": 190},
-    ]
+    session = SessionLocal()
 
+    # 데이터베이스에서 질문 목록 조회
+    questions = session.query(Question).order_by(Question.id.desc()).all()
+    popular_questions = session.query(Question).order_by(Question.views.desc()).limit(3).all()
 
-    # 예제 데이터
-    questions = [
-        {"id": 1, "title": "질문 제목 1", "author": "사용자1", "views": 150},
-        {"id": 2, "title": "질문 제목 2", "author": "사용자2", "views": 120},
-        {"id": 3, "title": "질문 제목 3", "author": "사용자3", "views": 95},
-    ]
+    session.close()
 
     # 페이지네이션 데이터
-    current_page = int(request.args.get('page', 1))  # 기본값: 1
-    total_pages = 5  # 전체 페이지 수
+    current_page = int(request.args.get('page', 1))
+    page_size = 5
+    offset = (current_page - 1) * page_size
+    total_pages = (len(questions) + page_size - 1) // page_size
 
     return render_template(
         'qa.html',
         popular_questions=popular_questions,
-        questions=questions,
+        questions=questions[offset:offset + page_size],
         current_page=current_page,
         total_pages=total_pages
     )
@@ -42,25 +36,38 @@ def index():
 # 질문 등록 페이지
 @qa_blueprint.route('/qa/create', methods=['GET', 'POST'])
 def create():
+    session = SessionLocal()
+
     if request.method == 'POST':
         # 폼 데이터 처리
         title = request.form.get('title')
         content = request.form.get('content')
+        author = "사용자1"  # 예제, 실제 서비스에서는 로그인된 사용자 정보 활용
+
+        # 새 질문 데이터베이스에 저장
+        new_question = Question(title=title, content=content, author=author)
+        session.add(new_question)
+        session.commit()
+
         flash(f"'{title}' 질문이 성공적으로 등록되었습니다!", 'success')
+        session.close()
         return redirect(url_for('qa.index'))
 
-    # GET 요청 시 등록 폼 렌더링
     return render_template('qa-create.html')
 
 # 질문 상세 페이지
 @qa_blueprint.route('/qa/<int:question_id>')
 def detail(question_id):
-    # 예제 데이터
-    question = {
-        "id": question_id,
-        "title": f"질문 제목 {question_id}",
-        "author": "사용자1",
-        "content": "이것은 질문 내용입니다.",
-        "views": 123
-    }
+    session = SessionLocal()
+
+    # 데이터베이스에서 질문 조회
+    question = session.query(Question).filter(Question.id == question_id).first()
+
+    # 조회수 증가
+    if question:
+        question.views += 1
+        session.commit()
+
+    session.close()
+
     return render_template('qa-detail.html', question=question)
