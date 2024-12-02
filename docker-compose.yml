@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   mysql:
-    image: mysql:8
+    image: sh330400/mysql8:1.0.1
     container_name: mysql-container
     networks:
       - app-network
@@ -28,6 +28,7 @@ services:
     environment:
       FLASK_ENV: development
       DATABASE_URI: mysql+pymysql://admin:admin@mysql:3306/game_archive
+      SECRET_KEY: your_secret_key_here
     ports:
       - "5001:5001"
     depends_on:
@@ -88,6 +89,7 @@ services:
     environment:
       FLASK_ENV: development
       DATABASE_URI: mysql+pymysql://admin:admin@mysql:3306/game_archive
+      SECRET_KEY: your_secret_key_here
     ports:
       - "5005:5005"
     depends_on:
