@@ -1,12 +1,22 @@
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, Integer, String, Text, create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
-db = SQLAlchemy()
+Base = declarative_base()
 
-class Question(db.Model):
-    __tablename__ = 'question_table'
-    question_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.Integer, nullable=False)  # 외래 키로 사용
-    title = db.Column(db.String(100), nullable=False)
-    content = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, server_default=db.func.now())
-    updated_at = db.Column(db.DateTime, server_default=db.func.now(), onupdate=db.func.now())
+class Question(Base):
+    __tablename__ = 'questions'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    title = Column(String(255), nullable=False)
+    content = Column(Text, nullable=False)
+    author = Column(String(100), nullable=False)
+    views = Column(Integer, default=0)
+
+DATABASE_URI = "mysql+pymysql://admin:admin@mysql:3306/game_archive"
+
+engine = create_engine(DATABASE_URI)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+def init_db():
+    Base.metadata.create_all(bind=engine)

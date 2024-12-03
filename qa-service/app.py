@@ -2,7 +2,7 @@ import os
 from app import create_app
 from views import qa_blueprint  # views.py를 import
 from flask_session import Session
-from models import init_db
+from app.models import init_db
 
 # Flask 앱 생성
 app = create_app()
