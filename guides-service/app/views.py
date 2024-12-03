@@ -3,9 +3,9 @@ import threading
 import time
 import redis
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, desc
 from sqlalchemy.orm import sessionmaker
-from app.models import db_session, Guide 
+from app.models import db_session, Guide, GameCategory
 from app.utils import login_required 
 
 # Redis 연결 설정
@@ -59,14 +59,26 @@ def get_user_info(user_id):
 def guide_list():
     page = request.args.get('page', 1, type=int)
     per_page = 10
-    total_items = db_session.query(Guide).count()
-    total_pages = (total_items + per_page - 1) // per_page
 
-    guides = db_session.query(Guide).offset((page - 1) * per_page).limit(per_page).all()
-    popular_guides = db_session.query(Guide).order_by(Guide.views.desc()).limit(5).all()
+    # 공략 목록 가져오기 (최신순)
+    guides_query = db_session.query(Guide).order_by(desc(Guide.created_at))
+    total_items = guides_query.count()
+    total_pages = (total_items + per_page - 1) // per_page
+    guides = guides_query.offset((page - 1) * per_page).limit(per_page).all()
+# 모든 사용자 데이터 가져오기 (캐싱 가능)
+    users = {user.user_id: user.username for user in db_session.query(User).all()}
+
+    # 각 공략에 글쓴이 이름 추가
+    for guide in guides:
+        guide.author_name = users.get(guide.user_id, "알 수 없음")
+
+    # 인기 공략 조회
+    popular_guides = db_session.query(Guide).order_by(desc(Guide.views)).limit(5).all()
+    for guide in popular_guides:
+        guide.author_name = users.get(guide.user_id, "알 수 없음")
 
     return render_template(
-        'guide.html',
+        'guide_list.html',
         guides=guides,
         popular_guides=popular_guides,
         current_page=page,
@@ -104,20 +116,28 @@ def guide_detail(guide_id):
 @login_required
 def create_guide():
     if request.method == 'POST':
-        title = request.form['title']
-        content = request.form['content']
-        category_id = request.form['category_id']
-        user_id = session['user_id']
+        title = request.form.get('title')
+        category_id = request.form.get('category_id')  # 선택된 카테고리 ID
+        content = request.form.get('content')
+        user_id = session.get('user_id')
 
+        if not title or not content or not category_id:
+            flash("모든 필드를 입력해야 합니다.", "danger")
+            return redirect(url_for('guide.create_guide'))
+
+        # 새로운 Guide 객체 생성
         new_guide = Guide(
             title=title,
             content=content,
-            category_id=category_id,
+            category_id=int(category_id),  # 카테고리 ID 저장
             user_id=user_id
         )
         db_session.add(new_guide)
         db_session.commit()
 
+        flash("공략이 성공적으로 등록되었습니다.", "success")
         return redirect(url_for('guide.guide_list'))
 
-    return render_template('create_guide.html')
+    # 게임 카테고리 목록 조회
+    categories = db_session.query(GameCategory).all()
+    return render_template('create_guide.html', categories=categories)

@@ -2,32 +2,37 @@
 
 {% block title %}공략 등록{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/create_guide.css') }}">
+{% endblock %}
+
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header text-center">
-                    <h2>새로운 질문 작성하기</h2>
+<div class="cg-container">
+    <div class="cg-card">
+        <div class="cg-card-header">
+            공략 등록하기
+        </div>
+        <div class="cg-card-body">
+            <form method="post" action="{{ url_for('guide.create_guide') }}">
+                <div class="cg-form-group">
+                    <label for="title">제목</label>
+                    <input type="text" class="cg-form-control" id="title" name="title" placeholder="공략의 제목을 입력하세요" required>
                 </div>
-                <div class="card-body">
-                    <form method="post" action="{{ url_for('guide.submit_question') }}">
-                        <div class="form-group">
-                            <label for="title">제목</label>
-                            <input type="text" class="form-control" id="title" name="title" placeholder="질문의 제목을 입력하세요" required>
-                        </div>
-                        <div class="form-group mt-3">
-                            <label for="category">카테고리</label>
-                            <input type="text" class="form-control" id="category" name="category" placeholder="카테고리 내용을 입력하세요" required>
-                        </div>
-                        <div class="form-group mt-3">
-                            <label for="content">질문 내용</label>
-                            <textarea class="form-control" id="content" name="content" rows="5" placeholder="자세한 질문 내용을 입력하세요" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary mt-4 float-end">질문 등록</button>
-                    </form>
+                <div class="cg-form-group">
+                    <label for="category_id">카테고리</label>
+                    <select class="cg-form-control" id="category_id" name="category_id" required>
+                        <option value="" disabled selected>카테고리를 선택하세요</option>
+                        {% for category in categories %}
+                        <option value="{{ category.category_id }}">{{ category.title }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
-            </div>
+                <div class="cg-form-group">
+                    <label for="content">내용</label>
+                    <textarea class="cg-form-control" id="content" name="content" rows="5" placeholder="자세한 공략 내용을 입력하세요" required></textarea>
+                </div>
+                <button type="submit" class="cg-btn-primary">공략 등록</button>
+            </form>
         </div>
     </div>
 </div>

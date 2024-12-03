@@ -33,3 +33,10 @@ class Guide(Base):
     views = Column(Integer, default=0)
     created_at = Column(TIMESTAMP, server_default=func.current_timestamp())
     updated_at = Column(TIMESTAMP, server_default=func.current_timestamp(), onupdate=func.current_timestamp())
+
+# Game Category 모델
+class GameCategory(Base):
+    __tablename__ = 'Game_Category'
+
+    category_id = Column(BigInteger, primary_key=True, autoincrement=True)
+    title = Column(String(100), nullable=False)
