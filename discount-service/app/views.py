@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, session
-from utils import get_games
+from flask import Blueprint, render_template, request, g
+from app.utils import get_games
 
 # 블루프린트 생성
 discounts_blueprint = Blueprint('discounts', __name__, url_prefix='/discounts')
@@ -38,5 +38,5 @@ def index():
         category_filter=category_filter,
         current_page=page,
         total_pages=total_pages,
-        user_id=session.get('user_id'),  # 로그인된 사용자 정보 확인
+        user=g.user  # 로그인된 사용자 정보 전달
     )

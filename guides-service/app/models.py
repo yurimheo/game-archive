@@ -40,3 +40,14 @@ class GameCategory(Base):
 
     category_id = Column(BigInteger, primary_key=True, autoincrement=True)
     title = Column(String(100), nullable=False)
+
+# Guide Comments 모델 정의
+class GuideComments(Base):
+    __tablename__ = 'Guide_Comments'
+
+    comment_id = Column(BigInteger, primary_key=True, autoincrement=True)
+    guide_id = Column(BigInteger, nullable=False)  # 공략 ID (외래 키로 연결 가능)
+    user_id = Column(BigInteger, nullable=False)  # 작성자 ID
+    content = Column(Text, nullable=False)  # 댓글 내용
+    created_at = Column(TIMESTAMP, server_default=func.current_timestamp())  # 생성 시간
+    updated_at = Column(TIMESTAMP, server_default=func.current_timestamp(), onupdate=func.current_timestamp())  # 수정 시간

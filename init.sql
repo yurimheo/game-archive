@@ -107,31 +107,6 @@ VALUES
     (9, 19, 'Artifact Farming Guide', 'Farm artifact fragments from area Z.'),
     (10, 20, 'Survival Tips', 'Always carry healing items and stay aware of your surroundings.');
 
--- 댓글 테이블
-CREATE TABLE IF NOT EXISTS Comment (
-    comment_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL,
-    parent_table ENUM('News_table', 'Question_table', 'Guide_table') NOT NULL,
-    parent_id BIGINT NOT NULL,
-    content TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES User(user_id)
-) CHARACTER SET utf8;
-
-INSERT INTO Comment (user_id, parent_table, parent_id, content)
-VALUES
-    (1, 'Question_table', 1, 'Try using a shield to block dragon attacks.'),
-    (2, 'Guide_table', 1, 'This guide is really helpful. Thank you!'),
-    (3, 'Question_table', 2, 'I recommend the staff of ice for wizards.'),
-    (4, 'Guide_table', 2, 'Great guide for PvP strategies.'),
-    (5, 'Question_table', 3, 'Grind in area X for fast XP.'),
-    (6, 'Guide_table', 3, 'I used this leveling guide and it worked wonders.'),
-    (7, 'Question_table', 4, 'Tank builds should prioritize defense and health.'),
-    (8, 'Guide_table', 4, 'This raid guide saved my team from a wipe.'),
-    (9, 'Question_table', 5, 'Stick together and focus on the healer first.'),
-    (10, 'Guide_table', 5, 'Multiplayer strategy guide was very effective.');
-
 -- 뉴스 테이블
 CREATE TABLE IF NOT EXISTS News (
     news_id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -197,3 +172,36 @@ VALUES
     ('Educational'), -- Educational Games
     ('Sandbox'); -- Sandbox Games
 
+-- 공략 댓글 테이블
+CREATE TABLE Guide_Comments (
+    comment_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    guide_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- 뉴스 댓글 테이블
+CREATE TABLE News_Comments (
+    comment_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    news_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+INSERT INTO Guide_Comments (guide_id, user_id, content)
+VALUES
+(1, 11, '정말 유익한 공략이네요! 감사합니다.'),
+(1, 12, '공략 덕분에 클리어했습니다.'),
+(2, 13, '잘못된 정보가 있는 것 같아요. 수정 부탁드립니다.'),
+(3, 14, '다음 업데이트 때 새로운 공략도 부탁드려요!');
+
+INSERT INTO News_Comments (news_id, user_id, content)
+VALUES
+(1, 5, '이 게임 업데이트 너무 기대됩니다!'),
+(1, 6, '패치 내용이 정말 마음에 듭니다.'),
+(2, 7, '이 뉴스는 오래된 것 같은데요?'),
+(3, 8, '다른 소식도 업데이트 부탁드려요!');

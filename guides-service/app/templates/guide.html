@@ -34,7 +34,7 @@
                 <tr>
                     <td>{{ guide.guide_id }}</td>
                     <td><a href="{{ url_for('guide.guide_detail', guide_id=guide.guide_id) }}">{{ guide.title }}</a></td>
-                    <td>{{ guide.author_name or '알 수 없음' }}</td> <!-- 글쓴이 이름 표시 -->
+                    <td>{{ guide.author_name }}</td> <!-- 글쓴이 이름 표시 -->
                     <td>{{ guide.views }}</td>
                 </tr>
                 {% endfor %}

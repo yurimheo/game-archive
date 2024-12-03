@@ -30,15 +30,15 @@
                 <!-- 로그인 및 회원가입 버튼 -->
                 <div class="header-box">
                     <div class="custom-nav-right buttons">
-                        {% if session.get('user_id') %}
-                            <!-- 로그인 상태일 경우 -->
-                            <button href="http://127.0.0.1:5006/mypage" class="navbtn">My Page</button>
-                            <button href="http://127.0.0.1:5006/logout" class="navbtn">Logout</button>
-                        {% else %}
-                            <!-- 로그인되지 않은 상태일 경우 -->
-                            <button href="http://127.0.0.1:5006/login" class="navbtn">Login</button>
-                            <button href="http://127.0.0.1:5006/register" class="navbtn">Sign Up</button>
-                        {% endif %}
+                        {% if user %}
+                        <!-- 로그인 상태일 경우 -->
+                        <button onclick="window.location.href='http://127.0.0.1:5006/mypage'" class="navbtn">My Page</button>
+                        <button onclick="window.location.href='http://127.0.0.1:5006/logout'" class="navbtn">Logout</button>
+                    {% else %}
+                        <!-- 로그인되지 않은 상태일 경우 -->
+                        <button onclick="window.location.href='http://127.0.0.1:5006/login'" class="navbtn">Login</button>
+                        <button onclick="window.location.href='http://127.0.0.1:5006/register'" class="navbtn">Sign Up</button>
+                    {% endif %}
                     </div>
                 </div>
 
@@ -51,7 +51,7 @@
                         <a href="http://127.0.0.1:5004/news">Game News</a>
                         <a href="http://127.0.0.1:5005/qa">Q&A Corner</a>
                         <hr> <!-- 구분선 -->
-                        {% if session.get('user_id') %}
+                        {% if user %}
                         <a href="http://127.0.0.1:5006/mypage">My Page</a>
                         <a href="http://127.0.0.1:5006/logout">Logout</a>
                     {% else %}
@@ -99,19 +99,47 @@
 
  {% block extra_js %}
 <script>
+   document.addEventListener('DOMContentLoaded', function() {
+    // 타이핑 효과
+    const subtitleText = "AM 11, Every Day";
+    const subtitleElement = document.getElementById('subtitle');
+
+    if (subtitleElement) {
+        subtitleText.split('').forEach((char, index) => {
+            const span = document.createElement('span');
+            span.innerHTML = char === ' ' ? '&nbsp;' : char;
+            span.className = 'letter';
+            span.style.animationDelay = `${index * 0.1}s`;
+            subtitleElement.appendChild(span);
+        });
+    }
+
+    const mainText = "Limited Time Deal";
+    const typewriterElement = document.getElementById('typewriter');
+    let i = 0;
+
+    function typeWriter() {
+        if (typewriterElement && i < mainText.length) {
+            typewriterElement.textContent += mainText.charAt(i);
+            i++;
+            setTimeout(typeWriter, 100);
+        }
+    }
+
+    if (typewriterElement) {
+        typeWriter();
+    }
+
     // 햄버거 메뉴 토글
-document.addEventListener('DOMContentLoaded', function() {
     const hamburgerMenuToggle = document.getElementById('hamburger-menuToggle');
     const hamburgerDropdownMenu = document.getElementById('hamburger-dropdownMenu');
 
-    // 햄버거 메뉴가 존재할 경우, 클릭 이벤트 리스너 추가
     if (hamburgerMenuToggle && hamburgerDropdownMenu) {
         hamburgerMenuToggle.addEventListener('click', function() {
             hamburgerDropdownMenu.classList.toggle('hidden');
         });
-    } else {
-        console.error('햄버거 메뉴 요소가 없습니다.');
     }
 });
+
 </script>
 {% endblock %}
