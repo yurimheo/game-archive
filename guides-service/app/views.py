@@ -6,7 +6,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from sqlalchemy import create_engine, desc
 from sqlalchemy.orm import sessionmaker
 from app.models import db_session, Guide, GameCategory
-from app.utils import login_required 
+from app.utils import login_required, get_username
 
 # Redis 연결 설정
 redis_client = redis.StrictRedis(host='redis', port=6379, decode_responses=True)
@@ -65,17 +65,15 @@ def guide_list():
     total_items = guides_query.count()
     total_pages = (total_items + per_page - 1) // per_page
     guides = guides_query.offset((page - 1) * per_page).limit(per_page).all()
-# 모든 사용자 데이터 가져오기 (캐싱 가능)
-    users = {user.user_id: user.username for user in db_session.query(User).all()}
 
-    # 각 공략에 글쓴이 이름 추가
+    # 각 공략에 글쓴이 이름 추가 (auth-service 또는 Redis를 통해 가져오기)
     for guide in guides:
-        guide.author_name = users.get(guide.user_id, "알 수 없음")
+        guide.author_name = get_username(guide.user_id)
 
     # 인기 공략 조회
     popular_guides = db_session.query(Guide).order_by(desc(Guide.views)).limit(5).all()
     for guide in popular_guides:
-        guide.author_name = users.get(guide.user_id, "알 수 없음")
+        guide.author_name = get_username(guide.user_id)
 
     return render_template(
         'guide_list.html',
