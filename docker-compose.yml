@@ -1,0 +1,146 @@
+version: '3.7'
+
+services:
+  nfs-server:
+    image: itsthenetwork/nfs-server-alpine  # NFS server image
+    container_name: nfs-server
+    environment:
+      - SHARED_DIRECTORY=/mnt/nfs_share  # Path to the directory to be shared
+    volumes:
+      - nfs-data:/mnt/nfs_share           # Local path to share with MySQL container
+    ports:
+      - "2050:2050"                      # NFS port
+    command: /bin/sh -c "mkdir -p /mnt/nfs_share && /usr/sbin/rpcbind && /usr/sbin/nfsd -N 2 && /usr/sbin/rpc.mountd"
+
+  mysql:
+    image: sh330400/mysql8:1.0.1
+    container_name: mysql-container
+    ports:
+      - "3306:3306"  # Host's 3306 port mapped to container's 3306 port
+    environment:
+      MYSQL_ROOT_PASSWORD: admin  # Set MySQL root password
+      MYSQL_DATABASE: flask_db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    volumes:
+      - nfs-data:/var/lib/mysql  # Use NFS-mounted directory for MySQL data
+    networks:
+      - nfs-network
+
+  common-service:
+    build:
+      context: ./common-service
+    container_name: common-service
+    ports:
+      - "5001:5001"
+    environment:
+      - FLASK_ENV=development
+      - SQLALCHEMY_DATABASE_URI=mysql+pymysql://admin:admin@mysql-container/flask_db
+    networks:
+      - nfs-network
+    depends_on:
+      - mysql
+      - nfs-server
+
+  discount-service:
+    build:
+      context: ./discount-service
+    container_name: discount-service
+    ports:
+      - "5002:5002"
+    environment:
+      - FLASK_ENV=development
+      - SQLALCHEMY_DATABASE_URI=mysql+pymysql://admin:admin@mysql-container/flask_db
+    networks:
+      - nfs-network
+    depends_on:
+      - mysql
+      - nfs-server
+
+  guides-service:
+    build:
+      context: ./guides-service
+    container_name: guides-service
+    ports:
+      - "5003:5003"
+    environment:
+      - FLASK_ENV=development
+      - SQLALCHEMY_DATABASE_URI=mysql+pymysql://admin:admin@mysql-container/flask_db
+    networks:
+      - nfs-network
+    depends_on:
+      - mysql
+      - nfs-server
+
+  news-service:
+    build:
+      context: ./news-service
+    container_name: news-service
+    ports:
+      - "5004:5004"
+    environment:
+      - FLASK_ENV=development
+      - SQLALCHEMY_DATABASE_URI=mysql+pymysql://admin:admin@mysql-container/flask_db
+    networks:
+      - nfs-network
+    depends_on:
+      - mysql
+      - nfs-server
+
+  qa-service:
+    build:
+      context: ./qa-service
+    container_name: qa-service
+    ports:
+      - "5005:5005"
+    environment:
+      - FLASK_ENV=development
+      - SQLALCHEMY_DATABASE_URI=mysql+pymysql://admin:admin@mysql-container/flask_db
+    networks:
+      - nfs-network
+    depends_on:
+      - mysql
+      - nfs-server
+
+  auth-service:
+    build:
+      context: ./auth-service
+    container_name: auth-service
+    ports:
+      - "5006:5006"
+    environment:
+      - FLASK_ENV=development
+      - SQLALCHEMY_DATABASE_URI=mysql+pymysql://admin:admin@mysql-container/flask_db
+    networks:
+      - nfs-network
+    depends_on:
+      - mysql
+      - nfs-server
+
+  timed-deal-service:
+    build:
+      context: ./timed-deal-service
+    container_name: timed-deal-service
+    ports:
+      - "5007:5007"
+    environment:
+      - FLASK_ENV=development
+      - SQLALCHEMY_DATABASE_URI=mysql+pymysql://admin:admin@mysql-container/flask_db
+    networks:
+      - nfs-network
+    depends_on:
+      - mysql
+      - nfs-server
+
+volumes:
+  nfs-data:
+    driver: local  # Local volume to mount from NFS server
+
+networks:
+  nfs-network:
+    driver: bridge
+
+
+
+
+

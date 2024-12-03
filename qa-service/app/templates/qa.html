@@ -15,9 +15,9 @@
         <div class="qna-popular mb-4">
             <h2>🔥 인기 질문</h2>
             <ul class="list-group">
-                {% for question in popular_questions %}
+                {% for question, username in popular_questions %}
                 <li class="list-group-item">
-                    <a href="{{ url_for('qa.detail', question_id=question.id) }}">{{ question.title }}</a>
+                    <a href="{{ url_for('qa.detail', question_id=question.question_id) }}">{{ question.title }}</a>
                 </li>
                 {% endfor %}
             </ul>
@@ -30,18 +30,18 @@
                     <th scope="col">번호</th>
                     <th scope="col">제목</th>
                     <th scope="col">글쓴이</th>
-                    <th scope="col">조회수</th>
+                    <th scope="col">등록일</th>
                 </tr>
             </thead>
             <tbody>
-                {% for question in questions %}
+                {% for question, username in questions %}
                 <tr>
-                    <td>{{ question.id }}</td>
+                    <td>{{ question.question_id }}</td>
                     <td>
-                        <a href="{{ url_for('qa.detail', question_id=question.id) }}">{{ question.title }}</a>
+                        <a href="{{ url_for('qa.detail', question_id=question.question_id) }}">{{ question.title }}</a>
                     </td>
-                    <td>{{ question.author }}</td>
-                    <td>{{ question.views }}</td>
+                    <td>{{ username }}</td>
+                    <td>{{ question.created_at.strftime('%Y-%m-%d') }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
