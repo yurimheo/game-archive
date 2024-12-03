@@ -30,7 +30,7 @@
 1. **Kubernetes 클러스터 구축**  
 2. **Flask 기반 마이크로서비스 애플리케이션 개발**  
 3. **AWS 클라우드 전환** 및 **Terraform/Ansible**을 활용한 인프라 자동화  
-4. **CI/CD 파이프라인 도입** (GitHub Actions + Harbor)  
+4. **CI/CD 파이프라인 도입** (GitHub Actions + ArgoCD)  
 5. **Prometheus**와 **Grafana**를 활용한 모니터링 및 대시보드 구축  
 6. **게시판 CRUD 최적화** 및 **JWT 인증 체계 구현**  
 
@@ -75,7 +75,7 @@
 
 ### 🚀 CI/CD 도구
 - **GitHub Actions**
-- **Harbor**
+- **ArgoCD**
 
 ### 📊 모니터링
 - **Prometheus**
