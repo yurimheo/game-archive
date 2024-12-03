@@ -1,29 +1,20 @@
-import os
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-
-db = SQLAlchemy()  # 전역으로 SQLAlchemy 인스턴스를 생성합니다.
-
+from sqlalchemy.orm import scoped_session
+from app.models import Base, SessionLocal, engine
 
 def create_app():
     app = Flask(__name__)
 
-    # 데이터베이스 설정
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
-        'DATABASE_URI', 'mysql+pymysql://admin:admin@localhost/game_archive'
-    )
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'supersecretkey')
+    # Flask 설정
+    app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://admin:admin@mysql:3306/game_archive"
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # SQLAlchemy에서 불필요한 추적을 비활성화
+    app.config['SECRET_KEY'] = "supersecretkey"
 
-    # SQLAlchemy 초기화
-    db.init_app(app)
+    # SQLAlchemy 세션 설정
+    app.session = scoped_session(SessionLocal)
 
-    # Flask-Migrate 초기화
-    Migrate(app, db)
-
-    # 블루프린트 등록
-    from app.views import auth_blueprint
-    app.register_blueprint(auth_blueprint)
+    # 데이터베이스 초기화
+    with app.app_context():
+        Base.metadata.create_all(bind=engine)  # 테이블 생성
 
     return app

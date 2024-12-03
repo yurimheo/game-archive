@@ -13,9 +13,11 @@
         <div class="popular-strategies mb-4">
             <h2>🔥 인기 공략</h2>
             <ul class="list-unstyled">
-                <li><a href="/guide/question/1">공략 더미 테스트 1</a> 조회수 520</li>
-                <li><a href="/guide/question/2">공략 더미 테스트 2</a> 조회수 550</li>
-                <li><a href="/guide/question/3">공략 더미 테스트 3</a> 조회수 549</li>
+                {% for guide in popular_guides %}
+                <li>
+                    <a href="{{ url_for('guide.guide_detail', guide_id=guide.guide_id) }}">{{ guide.title }}</a> 조회수 {{ guide.views }}
+                </li>
+                {% endfor %}
             </ul>
         </div>
         <table class="guide-table">
@@ -28,32 +30,29 @@
                 </tr>
             </thead>
             <tbody>
-                {% for i in range(start_index, end_index + 1) %}
+                {% for guide in guides %}
                 <tr>
-                    <td>{{ i }}</td>
-                    <td><a href="{{ url_for('guide.guide_detail', guide_id=i) }}">공략 더미 테스트 {{ i }}</a></td>
-                    <td>유저{{ i }}</td>
-                    <td>{{ 300 + i * 10 }}</td>
+                    <td>{{ guide.guide_id }}</td>
+                    <td><a href="{{ url_for('guide.guide_detail', guide_id=guide.guide_id) }}">{{ guide.title }}</a></td>
+                    <td>{{ guide.author_name or '알 수 없음' }}</td> <!-- 글쓴이 이름 표시 -->
+                    <td>{{ guide.views }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
+            
+            
         </table>
 
         <!-- 페이지 네비게이션 -->
         <div class="guide-footer">
             <div class="guide-pagination">
-                <!-- 이전 페이지 -->
-                <a href="{{ url_for('guide.index', page=current_page - 1) }}" class="prev {% if current_page == 1 %}disabled{% endif %}">&lt;</a>
-                <!-- 페이지 번호 -->
+                <a href="{{ url_for('guide.guide_list', page=current_page - 1) }}" class="prev {% if current_page == 1 %}disabled{% endif %}">&lt;</a>
                 {% for page_num in range(1, total_pages + 1) %}
-                <a href="{{ url_for('guide.index', page=page_num) }}" class="{% if page_num == current_page %}active{% endif %}">
-                    {{ page_num }}
-                </a>
+                <a href="{{ url_for('guide.guide_list', page=page_num) }}" class="{% if page_num == current_page %}active{% endif %}">{{ page_num }}</a>
                 {% endfor %}
-                <!-- 다음 페이지 -->
-                <a href="{{ url_for('guide.index', page=current_page + 1) }}" class="next {% if current_page == total_pages %}disabled{% endif %}">&gt;</a>
+                <a href="{{ url_for('guide.guide_list', page=current_page + 1) }}" class="next {% if current_page == total_pages %}disabled{% endif %}">&gt;</a>
             </div>
-            <a href="{{ url_for('guide.submit_question') }}" class="guide-button">공략 등록</a>
+            <a href="{{ url_for('guide.create_guide') }}" class="guide-button">공략 등록</a>
         </div>
         
     </div>

@@ -1,12 +1,15 @@
-<!-- templates/qa-detail.html -->
 {% extends "base.html" %}
 
 {% block title %}질문 상세 보기{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/qa-detail.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="qa-detail-container">
     <h1>{{ question.title }}</h1>
-    <p>작성자: {{ question.author }}</p>
+    <p>작성자: {{ user_name }}</p>
     <p>조회수: {{ question.views }}</p>
     <div class="qa-content">
         <p>{{ question.content }}</p>

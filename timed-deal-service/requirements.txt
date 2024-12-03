@@ -10,4 +10,8 @@ Werkzeug==3.0.6
 requests
 Flask-SQLAlchemy
 Flask-Migrate
+flask-session
+cryptography
+sqlalchemy
 pymysql
+redis

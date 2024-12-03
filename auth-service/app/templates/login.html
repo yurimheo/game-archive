@@ -9,14 +9,38 @@
 {% block content %}
 <div class="login-container">
     <h1 class="login-title">로그인</h1>
+
+    <!-- 플래시 메시지 -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash-message {{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+
+    <!-- 로그인 폼 -->
     <form action="{{ url_for('auth.login') }}" method="POST" class="login-form">
         <div class="form-group">
             <label for="username">아이디</label>
-            <input type="text" id="username" name="username" placeholder="아이디를 입력하세요" required>
+            <input 
+                type="text" 
+                id="username" 
+                name="username" 
+                placeholder="아이디를 입력하세요" 
+                value="{{ request.form.get('username', '') }}" 
+                required>
         </div>
         <div class="form-group">
             <label for="password">비밀번호</label>
-            <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" required>
+            <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                placeholder="비밀번호를 입력하세요" 
+                required>
         </div>
         <button type="submit" class="login-btn">로그인</button>
     </form>
@@ -25,4 +49,3 @@
     </p>
 </div>
 {% endblock %}
-

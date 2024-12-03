@@ -30,14 +30,15 @@
                 <!-- 로그인 및 회원가입 버튼 -->
                 <div class="header-box">
                     <div class="custom-nav-right buttons">
-                        <button class="navbtn" id="loginButton" data-url="http://127.0.0.1:5006/login">
-                            Login
-                        </button>
-                    </div>
-                    <div class="custom-nav-right buttons">
-                        <button class="navbtn" id="signupButton" data-url="http://127.0.0.1:5006/register">
-                            Sign Up
-                        </button>
+                        {% if session.get('user_id') %}
+                            <!-- 로그인 상태일 경우 -->
+                            <button href="http://127.0.0.1:5006/mypage" class="navbtn">My Page</button>
+                            <button href="http://127.0.0.1:5006/logout" class="navbtn">Logout</button>
+                        {% else %}
+                            <!-- 로그인되지 않은 상태일 경우 -->
+                            <button href="http://127.0.0.1:5006/login" class="navbtn">Login</button>
+                            <button href="http://127.0.0.1:5006/register" class="navbtn">Sign Up</button>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -50,8 +51,13 @@
                         <a href="http://127.0.0.1:5004/news">Game News</a>
                         <a href="http://127.0.0.1:5005/qa">Q&A Corner</a>
                         <hr> <!-- 구분선 -->
+                        {% if session.get('user_id') %}
+                        <a href="http://127.0.0.1:5006/mypage">My Page</a>
+                        <a href="http://127.0.0.1:5006/logout">Logout</a>
+                    {% else %}
                         <a href="http://127.0.0.1:5006/login">Login</a>
-                        <a href="http://127.0.0.1:5006/register">Sign up</a>
+                        <a href="http://127.0.0.1:5006/register">Sign Up</a>
+                    {% endif %}
                     </div>
                 </div>
         </div>
@@ -60,7 +66,7 @@
     <main>
 
     <!-- 타임딜 홍보 영역 -->
-    <a href="#" class="time-deal-link">
+    <a href="http://127.0.0.1:5007/timedeal/" class="time-deal-link">
         
         <section class="time-deal-section">
             <img src="{{ url_for('static', filename='images/main-hyl.jpg') }}" alt="Time Deal Background" class="time-deal-image">
@@ -90,3 +96,22 @@
      
      </main>
  </div>
+
+ {% block extra_js %}
+<script>
+    // 햄버거 메뉴 토글
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburgerMenuToggle = document.getElementById('hamburger-menuToggle');
+    const hamburgerDropdownMenu = document.getElementById('hamburger-dropdownMenu');
+
+    // 햄버거 메뉴가 존재할 경우, 클릭 이벤트 리스너 추가
+    if (hamburgerMenuToggle && hamburgerDropdownMenu) {
+        hamburgerMenuToggle.addEventListener('click', function() {
+            hamburgerDropdownMenu.classList.toggle('hidden');
+        });
+    } else {
+        console.error('햄버거 메뉴 요소가 없습니다.');
+    }
+});
+</script>
+{% endblock %}

@@ -1,12 +1,12 @@
 /* 공략 게시판 컨테이너 */
-.guide-container {
+.question-detail-container {
     background-color: #ffffff;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 30px;
 }
 
-.guide-container h1 {
+.question-detail-container h1 {
     font-size: 1.8rem;
     font-weight: bold;
     text-align: center;
