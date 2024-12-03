@@ -10,6 +10,7 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # SQLAlchemy에서 불필요한 추적을 비활성화
     app.config['SECRET_KEY'] = "supersecretkey"
 
+    
     # SQLAlchemy 세션 설정
     app.session = scoped_session(SessionLocal)
 
