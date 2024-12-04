@@ -13,10 +13,28 @@
     color: #333;
 }
 
+.pagination .page-link {
+    color: black; 
+    background-color: transparent; 
+    border: 0.5px solid #ddd; 
+    transition: background-color 0.1s ease, color 0.1s ease; 
+}
+
+.pagination .page-link:hover {
+    color: white; 
+    background-color: black; 
+    border-color: black; 
+}
+
 .pagination .page-item.active .page-link {
-    background-color: #007bff;
-    border-color: #007bff;
-    color: #fff;
+    color: white; 
+    background-color: black; 
+    border-color: black; }
+
+.pagination .page-item.disabled .page-link {
+    color: #ccc; 
+    background-color: transparent; 
+    border-color: #ddd; 
 }
 
 
@@ -40,4 +58,30 @@
     font-weight: bold;
     color: #000000;
     margin-bottom: 15px;
+}
+
+
+.btn-primary {
+    background-color: black !important;
+    color: white !important;
+    border-color: black !important;
+    text-decoration: none !important; /* 기본 링크 스타일 제거 */
+}
+
+.btn-primary:hover {
+    background-color: #333 !important;
+    color: white !important;
+    border-color: #333 !important;
+    text-decoration: none !important; /* 기본 링크 스타일 제거 */
+}
+
+
+/* 할인된 가격 (빨간색) */
+.card-text .text-danger {
+    color: green !important; /* 초록색에서 빨간색으로 변경 */
+}
+
+/* % Off 텍스트 (빨간색으로 변경) */
+.card-text.text-success {
+    color: red !important; /* 초록색에서 빨간색으로 변경 */
 }

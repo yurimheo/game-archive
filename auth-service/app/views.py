@@ -71,7 +71,7 @@ def login():
                 {
                     "user_id": user.user_id,
                     "username": user.username,
-                    "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=15)
+                    "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=15) 
                 },
                 SECRET_KEY,
                 algorithm="HS256"
