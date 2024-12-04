@@ -7,6 +7,7 @@ from app.models import db_session
 from app.auth_proxy import auth_proxy
 import jwt as pyjwt
 
+
 # Flask 앱 생성
 app = Flask(__name__,
             static_folder='app/static',

@@ -139,7 +139,7 @@ def guide_detail(guide_id):
 def create_guide():
     if not g.user:
         flash("공략을 등록하려면 로그인해야 합니다.", "danger")
-        return redirect(url_for('auth.login'))
+        return redirect("http://127.0.0.1:5006/login")
 
     if request.method == 'POST':
         title = request.form.get('title')
