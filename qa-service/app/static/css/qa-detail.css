@@ -35,7 +35,7 @@
 .qa-detail-back {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #333333;
     color: #fff;
     text-decoration: none;
     border-radius: 5px;
@@ -44,5 +44,38 @@
 }
 
 .qa-detail-back:hover {
-    background-color: #0056b3;
+    background-color: #3f3f3f;
+}
+
+.qa-answer-list {
+    list-style: none;
+    padding: 0;
+}
+
+.qa-answer-list li {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.qa-answer-form textarea {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+.qa-answer-form button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3a3a3a;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.qa-answer-form button:hover {
+    background-color: #474747;
 }

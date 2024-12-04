@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}질문 상세 보기{% endblock %}
+{% block title %}{{ question.title }} - Game Archive{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/qa-detail.css') }}">
@@ -9,11 +9,31 @@
 {% block content %}
 <div class="qa-detail-container">
     <h1>{{ question.title }}</h1>
-    <p>작성자: {{ user_name }}</p>
+    <p>{{ question.content }}</p>
     <p>조회수: {{ question.views }}</p>
-    <div class="qa-content">
-        <p>{{ question.content }}</p>
-    </div>
-    <a href="{{ url_for('qa.index') }}">질문 목록으로 돌아가기</a>
+
+    <!-- 답변 목록 -->
+    <h2>답변</h2>
+    <ul class="qa-answer-list">
+        {% for answer in answers %}
+        <li>
+            <p><strong>작성자:</strong> {{ answer.user.username }}</p>
+            <p>{{ answer.content }}</p>
+            <p><small>작성일: {{ answer.created_at }}</small></p>
+        </li>
+        {% else %}
+        <li>아직 답변이 없습니다. 첫 답변을 작성해보세요!</li>
+        {% endfor %}
+    </ul>
+
+    <!-- 답변 작성 폼 -->
+    {% if g.user %}
+    <form method="POST" class="qa-answer-form">
+        <textarea name="answer_content" placeholder="답변을 입력하세요..." required></textarea>
+        <button type="submit">답변 등록</button>
+    </form>
+    {% else %}
+    <p class="text-muted">답변을 작성하려면 <a href="http://127.0.0.1:5006/login">로그인</a>하세요.</p>
+    {% endif %}
 </div>
 {% endblock %}

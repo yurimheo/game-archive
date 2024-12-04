@@ -27,7 +27,7 @@ def fetch_author_name(user_id):
 
     try:
         logging.debug(f"Fetching username for user_id: {user_id}")
-        response = requests.get(f"{AUTH_SERVICE_URL}/users/{user_id}")
+        response = requests.get(f"{AUTH_SERVICE_URL}/User/{user_id}")
         logging.debug(f"Response status code: {response.status_code}")
         logging.debug(f"Response content: {response.text}")
         

@@ -3,7 +3,7 @@ from app import create_app
 from app.views import auth_blueprint  # views.py를 import
 from flask_session import Session
 from app.models import init_db
-from flask import Flask, g, request
+from flask import Flask, g, request, jsonify
 import jwt as pyjwt
 import redis
 
@@ -43,6 +43,18 @@ def inject_user():
     템플릿에 g.user를 user 변수로 전달합니다.
     """
     return {"user": g.user}
+
+@app.route('/api/users/batch', methods=['POST'])
+def get_user_info():
+    user_ids = request.json.get("user_ids", [])
+    # 데이터베이스에서 사용자 정보 조회 (예시 데이터 반환)
+    users = {
+        1: {"username": "player1"},
+        2: {"username": "gamer2"},
+        # 더 많은 사용자 추가
+    }
+    return jsonify({uid: users.get(uid, {"username": "알 수 없는 사용자"}) for uid in user_ids})
+
 
 # Flask-Session 설정
 app.config["SESSION_TYPE"] = "redis"  # 세션을 Redis로 설정

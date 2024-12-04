@@ -12,7 +12,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # User 테이블 정의
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = 'User'
 
     user_id = Column(BigInteger, primary_key=True, autoincrement=True)
     username = Column(String(50), unique=True, nullable=False)

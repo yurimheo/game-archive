@@ -38,15 +38,16 @@ VALUES
 
 -- 질문 테이블
 CREATE TABLE IF NOT EXISTS Question (
-    question_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL,
-    title VARCHAR(100) NOT NULL,
-    content TEXT NOT NULL,
-    views INT DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES User(user_id)
-) CHARACTER SET utf8;
+    question_id BIGINT AUTO_INCREMENT PRIMARY KEY, -- 질문 ID
+    user_id BIGINT NOT NULL,                      -- 사용자 ID
+    title VARCHAR(100) NOT NULL,                  -- 질문 제목
+    content TEXT NOT NULL,                        -- 질문 내용
+    views INT DEFAULT 0,                          -- 조회수
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 생성 일자
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- 수정 일자
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES User(user_id) 
+        ON DELETE CASCADE ON UPDATE CASCADE       -- 외래 키 제약 조건: 삭제 및 업데이트 동기화
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 INSERT INTO Question (user_id, title, content)
 VALUES
@@ -70,6 +71,29 @@ VALUES
     (18, 'Event rewards?', 'What are the rewards for participating in the summer event?'),
     (19, 'Best XP farming location?', 'What is the best location for XP farming at level 30?'),
     (20, 'Guild wars tips?', 'Any tips for winning guild wars consistently?');
+
+-- 답변 테이블 생성
+CREATE TABLE IF NOT EXISTS Answer (
+    answer_id BIGINT AUTO_INCREMENT PRIMARY KEY,  -- 답변 ID
+    question_id BIGINT NOT NULL,                  -- 질문 ID
+    user_id BIGINT NOT NULL,                      -- 작성자 ID
+    content TEXT NOT NULL,                        -- 답변 내용
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 작성 일자
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- 수정 일자
+    FOREIGN KEY (question_id) REFERENCES Question(question_id)
+        ON DELETE CASCADE ON UPDATE CASCADE,      -- 외래 키 제약 조건
+    FOREIGN KEY (user_id) REFERENCES User(user_id)
+        ON DELETE CASCADE ON UPDATE CASCADE       -- 외래 키 제약 조건
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- 답변 데이터 삽입
+INSERT INTO Answer (question_id, user_id, content) VALUES
+(1, 2, 'Use ice magic and dodge its fire breath. Timing is key!'),
+(1, 3, 'Try equipping the Flame Resistant Armor set. It helps a lot.'),
+(2, 4, 'The Arcane Robes and the Staff of Wisdom are great for PvE.'),
+(3, 1, 'Grinding in the Goblin Forest area is the fastest way to level up.'),
+(4, 5, 'Focus on high defense gear and skills that mitigate damage.'),
+(5, 3, 'Stick with your team and communicate well during battles.');
 
 -- 공략 테이블
 CREATE TABLE IF NOT EXISTS Guide (
