@@ -1,40 +1,37 @@
+import requests
 from flask import Blueprint, render_template, request, redirect, url_for, flash
+from models import SessionLocal, Question
 
-# 블루프린트 정의
 qa_blueprint = Blueprint(
     'qa',
     __name__,
-    template_folder='app/templates',  # 템플릿 경로
-    static_folder='app/static'        # 정적 파일 경로
+    template_folder='app/templates',
+    static_folder='app/static'
 )
 
+COMMON_SERVICE_URL = "http://127.0.0.1:5001"  # common-service의 URL
 
 # 질문 목록 페이지
 @qa_blueprint.route('/qa')
 def index():
-     # 인기 질문 데이터 예제
-    popular_questions = [
-        {"id": 101, "title": "게임 속성 변경 방법은?", "author": "PlayerOne", "views": 320},
-        {"id": 102, "title": "최고의 캐릭터 빌드는?", "author": "GamerGirl", "views": 250},
-        {"id": 103, "title": "서버 오류가 발생했어요. 해결법은?", "author": "TechMaster", "views": 190},
-    ]
+    session = SessionLocal()
 
+    # 데이터베이스에서 질문 목록 조회
+    questions = session.query(Question).order_by(Question.question_id.desc()).all()
+    popular_questions = session.query(Question).order_by(Question.views.desc()).limit(3).all()
 
-    # 예제 데이터
-    questions = [
-        {"id": 1, "title": "질문 제목 1", "author": "사용자1", "views": 150},
-        {"id": 2, "title": "질문 제목 2", "author": "사용자2", "views": 120},
-        {"id": 3, "title": "질문 제목 3", "author": "사용자3", "views": 95},
-    ]
+    session.close()
 
     # 페이지네이션 데이터
-    current_page = int(request.args.get('page', 1))  # 기본값: 1
-    total_pages = 5  # 전체 페이지 수
+    current_page = int(request.args.get('page', 1))
+    page_size = 5
+    offset = (current_page - 1) * page_size
+    total_pages = (len(questions) + page_size - 1) // page_size
 
     return render_template(
         'qa.html',
         popular_questions=popular_questions,
-        questions=questions,
+        questions=questions[offset:offset + page_size],
         current_page=current_page,
         total_pages=total_pages
     )
@@ -42,25 +39,66 @@ def index():
 # 질문 등록 페이지
 @qa_blueprint.route('/qa/create', methods=['GET', 'POST'])
 def create():
+    session_db = SessionLocal()
+
     if request.method == 'POST':
         # 폼 데이터 처리
         title = request.form.get('title')
         content = request.form.get('content')
+
+        # 실제 로그인된 사용자 ID를 가져옴
+        user_id = session.get('user_id', None)
+        if not user_id:
+            flash("로그인이 필요합니다.", 'danger')
+            return redirect(url_for('auth.login'))  # 로그인 페이지로 리다이렉트
+
+        # 새 질문 데이터베이스에 저장
+        new_question = Question(title=title, content=content, user_id=user_id)
+        session_db.add(new_question)
+        session_db.commit()
+
         flash(f"'{title}' 질문이 성공적으로 등록되었습니다!", 'success')
+        session_db.close()
         return redirect(url_for('qa.index'))
 
-    # GET 요청 시 등록 폼 렌더링
     return render_template('qa-create.html')
 
 # 질문 상세 페이지
 @qa_blueprint.route('/qa/<int:question_id>')
 def detail(question_id):
-    # 예제 데이터
-    question = {
-        "id": question_id,
-        "title": f"질문 제목 {question_id}",
-        "author": "사용자1",
-        "content": "이것은 질문 내용입니다.",
-        "views": 123
-    }
-    return render_template('qa-detail.html', question=question)
+    session_db = SessionLocal()
+
+    # 질문 조회
+    question = session_db.query(Question).filter(Question.question_id == question_id).first()
+
+    if not question:
+        session_db.close()
+        flash("질문을 찾을 수 없습니다.", 'danger')
+        return redirect(url_for('qa.index'))
+
+    # 조회수 증가
+    question.views += 1
+    session_db.commit()
+
+    # API 호출로 작성자 이름 가져오기
+    user_name = "알 수 없는 사용자"
+    try:
+        response = requests.get(f"{COMMON_SERVICE_URL}/api/users/{question.user_id}")
+        if response.status_code == 200:
+            user_data = response.json()
+            user_name = user_data.get("username", "알 수 없는 사용자")
+    except requests.RequestException:
+        user_name = "알 수 없는 사용자"
+
+    session_db.close()
+
+    return render_template(
+        'qa-detail.html',
+        question={
+            "title": question.title,
+            "content": question.content,
+            "views": question.views,
+            "user_id": question.user_id
+        },
+        user_name=user_name
+    )

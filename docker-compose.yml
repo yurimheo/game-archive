@@ -1,0 +1,148 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network 
+  
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-container
+    networks:
+      - app-network
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: game_archive
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  common-service:
+    build:
+      context: ./common-service
+    container_name: common-service
+    networks:
+      - app-network
+    restart: always
+    environment:
+      FLASK_ENV: development
+      DATABASE_URI: mysql+pymysql://admin:admin@mysql:3306/game_archive
+      SECRET_KEY: supersecretkey
+    ports:
+      - "5001:5001"
+    depends_on:
+      - mysql
+
+  discount-service:
+    build:
+      context: ./discount-service
+    container_name: discount-service
+    networks:
+      - app-network
+    restart: always
+    environment:
+      FLASK_ENV: development
+      DATABASE_URI: mysql+pymysql://admin:admin@mysql:3306/game_archive
+      SECRET_KEY: supersecretkey
+    ports:
+      - "5002:5002"
+    depends_on:
+      - mysql
+
+  guides-service:
+    build:
+      context: ./guides-service
+    container_name: guides-service
+    networks:
+      - app-network
+    restart: always
+    environment:
+      FLASK_ENV: development
+      DATABASE_URI: mysql+pymysql://admin:admin@mysql:3306/game_archive
+      SECRET_KEY: supersecretkey
+    ports:
+      - "5003:5003"
+    depends_on:
+      - mysql
+
+  news-service:
+    build:
+      context: ./news-service
+    container_name: news-service
+    networks:
+      - app-network
+    restart: always
+    environment:
+      FLASK_ENV: development
+      DATABASE_URI: mysql+pymysql://admin:admin@mysql:3306/game_archive
+      SECRET_KEY: supersecretkey
+    ports:
+      - "5004:5004"
+    depends_on:
+      - mysql
+
+  qa-service:
+    build:
+      context: ./qa-service
+    container_name: qa-service
+    networks:
+      - app-network
+    restart: always
+    environment:
+      FLASK_ENV: development
+      DATABASE_URI: mysql+pymysql://admin:admin@mysql:3306/game_archive
+      SECRET_KEY: supersecretkey
+    ports:
+      - "5005:5005"
+    depends_on:
+      - mysql
+
+  auth-service:
+    build:
+      context: ./auth-service
+    container_name: auth-service
+    networks:
+      - app-network
+    restart: always
+    environment:
+      FLASK_ENV: development
+      DATABASE_URI: mysql+pymysql://admin:admin@mysql:3306/game_archive
+      SECRET_KEY: supersecretkey
+      REFRESH_SECRET_KEY: "superrefreshsecretkey"
+    ports:
+      - "5006:5006"
+    depends_on:
+      - mysql
+
+  timed-deal-service:
+    build:
+      context: ./timed-deal-service
+    container_name: timed-deal-service
+    networks:
+      - app-network
+    restart: always
+    environment:
+      FLASK_ENV: development
+      DATABASE_URI: mysql+pymysql://admin:admin@mysql:3306/game_archive
+      SECRET_KEY: supersecretkey
+    ports:
+      - "5007:5007"
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
+
+networks:
+  app-network:
+    name: game-archive_app-network
+    driver: bridge

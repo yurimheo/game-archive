@@ -97,9 +97,9 @@
                     <h3 class="game-discount-name">{{ game.name }}</h3>
                     <p class="game-discount-prices">
                         {% if game.original_price %}
-                        <span class="game-original-price"><s>{{ game.original_price }}</s></span>
-                        {% endif %}
                         <span class="game-final-price">{{ game.final_price }}</span>
+                        {% endif %}
+                        <span class="game-original-price"><s>{{ game.original_price }}</s></span>
                     </p>
                     {% if game.discount_percent %}
                     <span class="game-discount-badge">{{ game.discount_percent }}% OFF</span>

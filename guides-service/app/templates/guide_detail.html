@@ -1,52 +1,75 @@
 {% extends 'base.html' %}
 
-{% block title %}상세 게시판{% endblock %}
+{% block title %}공략 상세 페이지{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/guide_detail.css') }}">
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h2>질문 제목</h2>
+<div class="gd-container">
+    <div>
+        <div>
+            <div class="gd-card">
+                <div class="gd-card-header">
+                    <h2>{{ guide.title }}</h2> <!-- 공략 제목 -->
+                    <p class="gd-p text-muted">작성자: {{ guide.author_name or "알 수 없음" }} | 조회수: {{ guide.views or 0 }}</p>
                 </div>
-                <div class="card-body">
-                    <p>질문 내용</p>
-                    
+                <div class="gd-card-body">
+                    <p>{{ guide.content }}</p> <!-- 공략 내용 -->
+                    <p class="text-muted">작성일: {{ guide.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
                 </div>
             </div>
+
+            <!-- 댓글 섹션 -->
             <div class="mt-4">
-                <h3>댓글</h3>
-                <table class="table table-bordered">
+                <h3 class="gd-h3">댓글</h3>
+                {% if comments %}
+                <table class="gd-table">
                     <thead>
                         <tr>
-                            <th>글쓴이</th>
+                            <th>작성자</th>
                             <th>내용</th>
+                            <th>작성일</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% for comment in comments %}
                         <tr>
-                            <td>글쓴이</td>
-                            <td>댓글 내용이 여기에 들어갑니다.</td>
+                            <td>{{ comment.author_name }}</td>
+                            <td>{{ comment.content }}</td>
+                            <td>{{ comment.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
-                <div class="mt-3">
-                    <form>
+                {% else %}
+                <p class="text-muted">아직 댓글이 없습니다. 첫 번째 댓글을 작성해 보세요!</p>
+                {% endif %}
+            </div>
+
+            <!-- 댓글 작성 -->
+            <div class="mt-3">
+                {% if user %}
+                    <!-- 로그인 상태 -->
+                    <form class="gd-form" method="POST" action="{{ url_for('guide.guide_detail', guide_id=guide.guide_id) }}">
                         <div class="form-group">
                             <label for="comment">댓글을 입력하세요</label>
-                            <textarea class="form-control" id="comment" rows="3"></textarea>
+                            <textarea class="gd-textarea" id="comment" name="content" rows="3" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary mt-2 float-end">댓글 등록</button>
+                        <button type="submit" class="gd-button mt-2">댓글 등록</button>
                     </form>
-                </div>
-                <div class="mt-4">
-                    <a href="{{ url_for('guide.index') }}" class="btn btn-secondary">목록으로 돌아가기</a>
-                </div>             
+                {% else %}
+                    <!-- 익명 사용자 -->
+                    <p class="text-muted">
+                        댓글을 작성하려면 <a href="http://127.0.0.1:5006/login" class="text-primary">로그인</a>하세요.
+                    </p>
+                {% endif %}
+            </div>
+
+            <!-- 목록으로 돌아가기 버튼 -->
+            <div class="mt-4">
+                <a href="{{ url_for('guide.guide_list') }}" class="gd-btn-secondary">목록으로 돌아가기</a>
             </div>
         </div>
     </div>

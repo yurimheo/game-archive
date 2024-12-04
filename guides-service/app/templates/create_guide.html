@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}공략 등록{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/create_guide.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="cg-container">
+    <div class="cg-card">
+        <div class="cg-card-header">
+            공략 등록하기
+        </div>
+        <div class="cg-card-body">
+            <form method="post" action="{{ url_for('guide.create_guide') }}">
+                <div class="cg-form-group">
+                    <label for="title">제목</label>
+                    <input type="text" class="cg-form-control" id="title" name="title" placeholder="공략의 제목을 입력하세요" required>
+                </div>
+                <div class="cg-form-group">
+                    <label for="category_id">카테고리</label>
+                    <select class="cg-form-control" id="category_id" name="category_id" required>
+                        <option value="" disabled selected>카테고리를 선택하세요</option>
+                        {% for category in categories %}
+                        <option value="{{ category.category_id }}">{{ category.title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="cg-form-group">
+                    <label for="content">내용</label>
+                    <textarea class="cg-form-control" id="content" name="content" rows="5" placeholder="자세한 공략 내용을 입력하세요" required></textarea>
+                </div>
+                <button type="submit" class="cg-btn-primary">공략 등록</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
