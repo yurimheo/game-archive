@@ -69,3 +69,35 @@ init_db()
 if __name__ == "__main__":
     print(app.url_map)  # URL 매핑 출력
     app.run(host="0.0.0.0", port=5006, debug=True)
+
+
+@app.route('/user/<int:user_id>', methods=['GET'])
+def get_user(user_id):
+    """
+    단일 사용자 정보를 반환하는 엔드포인트
+    """
+    # 사용자 데이터베이스 시뮬레이션
+    users = {
+        1: {"username": "Alice"},
+        21: {"username": "test"},
+        42: {"username": "Bob"}
+    }
+
+@app.route('/user/<int:user_id>', methods=['GET'])
+def get_user(user_id):
+    """
+    단일 사용자 정보를 반환하는 엔드포인트
+    """
+    # 임시 사용자 데이터베이스
+    users = {
+        1: {"username": "Alice"},
+        21: {"username": "test"},
+        42: {"username": "Bob"}
+    }
+
+    # 사용자 조회
+    user = users.get(user_id)
+    if user:
+        return jsonify({"user_id": user_id, "username": user["username"]}), 200
+    return jsonify({"error": "User not found"}), 404
+
