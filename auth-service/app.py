@@ -3,7 +3,7 @@ from app import create_app
 from app.views import auth_blueprint  # views.py를 import
 from flask_session import Session
 from app.models import init_db
-from flask import Flask, g, request
+from flask import Flask, g, request, jsonify
 import jwt as pyjwt
 import redis
 
@@ -44,6 +44,18 @@ def inject_user():
     """
     return {"user": g.user}
 
+@app.route('/api/users/batch', methods=['POST'])
+def get_user_info():
+    user_ids = request.json.get("user_ids", [])
+    # 데이터베이스에서 사용자 정보 조회 (예시 데이터 반환)
+    users = {
+        1: {"username": "player1"},
+        2: {"username": "gamer2"},
+        # 더 많은 사용자 추가
+    }
+    return jsonify({uid: users.get(uid, {"username": "알 수 없는 사용자"}) for uid in user_ids})
+
+
 # Flask-Session 설정
 app.config["SESSION_TYPE"] = "redis"  # 세션을 Redis로 설정
 app.config["SESSION_PERMANENT"] = False
@@ -57,3 +69,35 @@ init_db()
 if __name__ == "__main__":
     print(app.url_map)  # URL 매핑 출력
     app.run(host="0.0.0.0", port=5006, debug=True)
+
+
+@app.route('/user/<int:user_id>', methods=['GET'])
+def get_user(user_id):
+    """
+    단일 사용자 정보를 반환하는 엔드포인트
+    """
+    # 사용자 데이터베이스 시뮬레이션
+    users = {
+        1: {"username": "Alice"},
+        21: {"username": "test"},
+        42: {"username": "Bob"}
+    }
+
+@app.route('/user/<int:user_id>', methods=['GET'])
+def get_user(user_id):
+    """
+    단일 사용자 정보를 반환하는 엔드포인트
+    """
+    # 임시 사용자 데이터베이스
+    users = {
+        1: {"username": "Alice"},
+        21: {"username": "test"},
+        42: {"username": "Bob"}
+    }
+
+    # 사용자 조회
+    user = users.get(user_id)
+    if user:
+        return jsonify({"user_id": user_id, "username": user["username"]}), 200
+    return jsonify({"error": "User not found"}), 404
+

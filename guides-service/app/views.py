@@ -27,7 +27,7 @@ def fetch_author_name(user_id):
 
     try:
         logging.debug(f"Fetching username for user_id: {user_id}")
-        response = requests.get(f"{AUTH_SERVICE_URL}/users/{user_id}")
+        response = requests.get(f"{AUTH_SERVICE_URL}/User/{user_id}")
         logging.debug(f"Response status code: {response.status_code}")
         logging.debug(f"Response content: {response.text}")
         
@@ -139,7 +139,7 @@ def guide_detail(guide_id):
 def create_guide():
     if not g.user:
         flash("공략을 등록하려면 로그인해야 합니다.", "danger")
-        return redirect(url_for('auth.login'))
+        return redirect("http://127.0.0.1:5006/login")
 
     if request.method == 'POST':
         title = request.form.get('title')

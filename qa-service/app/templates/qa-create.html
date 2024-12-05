@@ -10,20 +10,32 @@
 <div class="qa-create-container">
     <h1 class="qa-create-title">질문 등록</h1>
     <div class="qa-create-form-container">
-        <h2 class="qa-create-subtitle">새로운 질문 작성하기</h2>
         <form class="qa-create-form" method="POST" action="{{ url_for('qa.create') }}">
             <!-- 작성자 (로그인한 유저) -->
+            {% if user %}
             <div class="qa-create-form-group">
-                <label for="qa-user-id" class="qa-create-label">작성자 ID</label>
+                <label for="qa-user-id" class="qa-create-label">작성자</label>
                 <input
-                    type="number"
-                    id="qa-user-id"
-                    name="user_id"
+                    type="text"
+                    id="qa-user-name"
+                    name="username"
                     class="qa-create-input"
-                    value="1" <!-- 로그인 연동 시 변경 -->
+                    value="{{ user.username }}"
+                />
+            </div>
+            {% else %}
+            <div class="qa-create-form-group">
+                <label for="qa-user-id" class="qa-create-label">작성자</label>
+                <input
+                    type="text"
+                    id="qa-user-name"
+                    name="username"
+                    class="qa-create-input"
+                    value="익명"
                     readonly
                 />
             </div>
+            {% endif %}
 
             <!-- 제목 -->
             <div class="qa-create-form-group">

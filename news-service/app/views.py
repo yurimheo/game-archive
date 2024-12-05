@@ -1,136 +1,119 @@
-import logging
-import requests
-from flask import Blueprint, jsonify, request, g
-from sqlalchemy import create_engine, desc
-from sqlalchemy.orm import sessionmaker
-from app.models import News, Base
-import jwt as pyjwt
-
-# JWT 설정
-SECRET_KEY = "supersecretkey"
-
-# 데이터베이스 연결 설정
-DATABASE_URI = "mysql+pymysql://admin:admin@mysql:3306/game_archive"
-engine = create_engine(DATABASE_URI)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+from flask import Blueprint, render_template, request, redirect, url_for, flash, g
+from app.models import db_session, News, NewsComments
+from sqlalchemy import desc
 
 # 블루프린트 생성
-news_blueprint = Blueprint('news', __name__, url_prefix='/news')
+news_blueprint = Blueprint('news', __name__)
 
-# JWT 검증 로직
-@news_blueprint.before_app_request
-def load_logged_in_user():
-    token = request.cookies.get("access_token")
-    g.user = None
+@news_blueprint.route('/')
+def news_list():
+    """
+    뉴스 목록 페이지
+    """
+    page = request.args.get('page', 1, type=int)
+    per_page = 6
 
-    if token:
-        try:
-            decoded_token = pyjwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-            g.user = {
-                "user_id": decoded_token.get("user_id"),
-                "username": decoded_token.get("username"),
-            }
-        except pyjwt.ExpiredSignatureError:
-            logging.info("Access token expired")
-        except pyjwt.InvalidTokenError:
-            logging.info("Invalid token")
+    # 뉴스 데이터를 가져와 페이지네이션 처리
+    news_query = db_session.query(News).order_by(desc(News.created_at))
+    total_items = news_query.count()
+    total_pages = (total_items + per_page - 1) // per_page
+    news_items = news_query.offset((page - 1) * per_page).limit(per_page).all()
 
-# 뉴스 목록 API
-@news_blueprint.route('/', methods=['GET'])
-def get_news():
-    session = SessionLocal()
-    try:
-        page = request.args.get('page', 1, type=int)
-        per_page = 10
+    # 인기 뉴스 조회 (조회수 기준 상위 3개)
+    popular_news = db_session.query(News).order_by(desc(News.views)).limit(3).all()
 
-        # 뉴스 데이터 가져오기 (최신순)
-        news_query = session.query(News).order_by(desc(News.created_at))
-        total_items = news_query.count()
-        total_pages = (total_items + per_page - 1) // per_page
-        news_list = news_query.offset((page - 1) * per_page).limit(per_page).all()
-
-        # 데이터 응답
-        result = [
-            {
-                "news_id": news.news_id,
-                "title": news.title,
-                "content": news.content,
-                "views": news.views,
-                "image_path": news.image_path,
-                "author": g.user.get("username") if g.user and news.user_id == g.user.get("user_id") else "알 수 없음",
-                "created_at": news.created_at.strftime('%Y-%m-%d %H:%M:%S'),
-            }
-            for news in news_list
-        ]
-        return jsonify({
-            "total_items": total_items,
-            "total_pages": total_pages,
-            "news": result
-        }), 200
-    except Exception as e:
-        logging.error(f"Error fetching news: {e}")
-        return jsonify({"error": "뉴스를 가져오는 중 오류가 발생했습니다."}), 500
-    finally:
-        session.close()
-
-# 뉴스 상세보기 API (조회수 증가)
-@news_blueprint.route('/<int:news_id>', methods=['GET'])
-def get_news_detail(news_id):
-    session = SessionLocal()
-    try:
-        news = session.query(News).get(news_id)
-        if not news:
-            return jsonify({"error": "뉴스를 찾을 수 없습니다."}), 404
-
-        # 조회수 증가
-        news.views += 1
-        session.commit()
-
-        result = {
+    # 뉴스 리스트 데이터 구성
+    news_list = [
+        {
             "news_id": news.news_id,
             "title": news.title,
-            "content": news.content,
-            "views": news.views,
-            "image_path": news.image_path,
-            "author": g.user.get("username") if g.user and news.user_id == g.user.get("user_id") else "알 수 없음",
-            "created_at": news.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+            "image_url": news.image_path or "images/default_news.jpg",  # 기본 이미지 경로 포함
+            "date": news.created_at.strftime("%Y. %m. %d."),
         }
-        return jsonify(result), 200
-    except Exception as e:
-        session.rollback()
-        logging.error(f"Error fetching news detail: {e}")
-        return jsonify({"error": "뉴스 상세 정보를 가져오는 중 오류가 발생했습니다."}), 500
-    finally:
-        session.close()
+        for news in news_items
+    ]
 
-# 뉴스 생성 API
-@news_blueprint.route('/create', methods=['POST'])
-def create_news():
-    if not g.user:
-        return jsonify({"error": "로그인이 필요합니다."}), 401
+    # 인기 뉴스 데이터 구성
+    popular_news_list = [
+        {
+            "news_id": news.news_id,
+            "title": news.title,
+            "date": news.created_at.strftime("%Y. %m. %d."),
+        }
+        for news in popular_news
+    ]
 
-    title = request.json.get('title')
-    content = request.json.get('content')
-    image_path = request.json.get('image_path')  # 이미지 경로
-    user_id = g.user.get('user_id')
+    return render_template(
+        'news.html',
+        news_list=news_list,
+        popular_news_list=popular_news_list,
+        current_page=page,
+        total_pages=total_pages,
+        current_user=g.user  # 현재 로그인 사용자 전달
+    )
 
-    if not title or not content:
-        return jsonify({"error": "제목과 내용을 입력하세요."}), 400
+@news_blueprint.route('/<int:news_id>')
+def news_detail(news_id):
+    """
+    뉴스 세부 페이지
+    """
+    news_item = db_session.query(News).get(news_id)
 
-    session = SessionLocal()
+    if not news_item:
+        flash("해당 뉴스는 존재하지 않습니다.", "danger")
+        return redirect(url_for('news.news_list'))
+
     try:
-        new_news = News(
-            title=title,
-            content=content,
-            image_path=image_path,
-            user_id=user_id
+        # 조회수 증가
+        news_item.views += 1
+        db_session.commit()
+    except Exception:
+        db_session.rollback()
+        flash("조회수 증가 중 오류가 발생했습니다.", "danger")
+
+    return render_template(
+        'news_detail.html',
+        news=news_item,
+        current_user=g.user  # 현재 로그인 사용자 전달
+    )
+
+@news_blueprint.route('/<int:news_id>/comment', methods=['POST'])
+def add_comment(news_id):
+    """
+    뉴스 댓글 추가
+    """
+    # 로그인 여부 확인
+    if g.user is None:
+        flash("댓글을 작성하려면 로그인이 필요합니다.", "warning")
+        return redirect("http://127.0.0.1:5006/login")  # 로그인 페이지로 이동
+
+    news_item = db_session.query(News).get(news_id)
+    if not news_item:
+        flash("해당 뉴스는 존재하지 않습니다.", "danger")
+        return redirect(url_for('news.news_list'))
+
+    # 댓글 데이터 가져오기
+    comment_content = request.form.get('comment', '').strip()
+    if not comment_content:
+        flash("댓글 내용을 입력해주세요.", "warning")
+        return redirect(url_for('news.news_detail', news_id=news_id))
+
+    if len(comment_content) > 500:
+        flash("댓글은 500자 이하로 작성해주세요.", "warning")
+        return redirect(url_for('news.news_detail', news_id=news_id))
+
+    try:
+        # 댓글 추가 (현재 로그인한 사용자의 이름을 작성자로 저장)
+        new_comment = NewsComments(
+            news_id=news_id,
+            content=comment_content,
+            author=g.user['username']  # g.user에서 사용자 이름 가져오기
         )
-        session.add(new_news)
-        session.commit()
-        return jsonify({"message": "뉴스가 성공적으로 등록되었습니다."}), 201
+        db_session.add(new_comment)
+        db_session.commit()
+        flash("댓글이 등록되었습니다.", "success")
     except Exception as e:
-        session.rollback()
-        logging.error(f"Error creating news: {e}")
-        return jsonify({"error": "뉴스를 생성하는 중 오류가 발생했습니다."}), 500
-    finally:
-        session.close()
+        db_session.rollback()
+        flash(f"댓글 등록 중 오류가 발생했습니다: {str(e)}", "danger")
+
+    return redirect(url_for('news.news_detail', news_id=news_id))

@@ -38,15 +38,16 @@ VALUES
 
 -- 질문 테이블
 CREATE TABLE IF NOT EXISTS Question (
-    question_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL,
-    title VARCHAR(100) NOT NULL,
-    content TEXT NOT NULL,
-    views INT DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES User(user_id)
-) CHARACTER SET utf8;
+    question_id BIGINT AUTO_INCREMENT PRIMARY KEY, -- 질문 ID
+    user_id BIGINT NOT NULL,                      -- 사용자 ID
+    title VARCHAR(100) NOT NULL,                  -- 질문 제목
+    content TEXT NOT NULL,                        -- 질문 내용
+    views INT DEFAULT 0,                          -- 조회수
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 생성 일자
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- 수정 일자
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES User(user_id) 
+        ON DELETE CASCADE ON UPDATE CASCADE       -- 외래 키 제약 조건: 삭제 및 업데이트 동기화
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 INSERT INTO Question (user_id, title, content)
 VALUES
@@ -70,6 +71,29 @@ VALUES
     (18, 'Event rewards?', 'What are the rewards for participating in the summer event?'),
     (19, 'Best XP farming location?', 'What is the best location for XP farming at level 30?'),
     (20, 'Guild wars tips?', 'Any tips for winning guild wars consistently?');
+
+-- 답변 테이블 생성
+CREATE TABLE IF NOT EXISTS Answer (
+    answer_id BIGINT AUTO_INCREMENT PRIMARY KEY,  -- 답변 ID
+    question_id BIGINT NOT NULL,                  -- 질문 ID
+    user_id BIGINT NOT NULL,                      -- 작성자 ID
+    content TEXT NOT NULL,                        -- 답변 내용
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 작성 일자
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- 수정 일자
+    FOREIGN KEY (question_id) REFERENCES Question(question_id)
+        ON DELETE CASCADE ON UPDATE CASCADE,      -- 외래 키 제약 조건
+    FOREIGN KEY (user_id) REFERENCES User(user_id)
+        ON DELETE CASCADE ON UPDATE CASCADE       -- 외래 키 제약 조건
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- 답변 데이터 삽입
+INSERT INTO Answer (question_id, user_id, content) VALUES
+(1, 2, 'Use ice magic and dodge its fire breath. Timing is key!'),
+(1, 3, 'Try equipping the Flame Resistant Armor set. It helps a lot.'),
+(2, 4, 'The Arcane Robes and the Staff of Wisdom are great for PvE.'),
+(3, 1, 'Grinding in the Goblin Forest area is the fastest way to level up.'),
+(4, 5, 'Focus on high defense gear and skills that mitigate damage.'),
+(5, 3, 'Stick with your team and communicate well during battles.');
 
 -- 공략 테이블
 CREATE TABLE IF NOT EXISTS Guide (
@@ -107,40 +131,43 @@ VALUES
     (9, 19, 'Artifact Farming Guide', 'Farm artifact fragments from area Z.'),
     (10, 20, 'Survival Tips', 'Always carry healing items and stay aware of your surroundings.');
 
--- 뉴스 테이블
+-- 뉴스 테이블 생성
 CREATE TABLE IF NOT EXISTS News (
     news_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL,
     title VARCHAR(100) NOT NULL,
     content TEXT NOT NULL,
     views INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    image_path VARCHAR(255),
-    FOREIGN KEY (user_id) REFERENCES User(user_id)
+    image_path VARCHAR(255)
 ) CHARACTER SET utf8;
 
-INSERT INTO News (user_id, title, content, image_path)
+-- 뉴스 데이터 삽입
+INSERT INTO News (title, content, image_path)
 VALUES
-    (1, 'New Expansion Released!', 'The latest expansion introduces new maps, bosses, and loot.', '/images/expansion1.jpg'),
-    (2, 'Patch Notes Update', 'Patch 1.23 brings balance changes and bug fixes.', '/images/patch1.jpg'),
-    (3, 'Double XP Weekend', 'Players can enjoy double XP from June 10 to June 12.', '/images/xp_event.jpg'),
-    (4, 'PvP Tournament Announced', 'The annual PvP tournament will start on July 15.', '/images/pvp_tournament.jpg'),
-    (5, 'New Raid Unlocked', 'A challenging new raid is now available for high-level players.', '/images/raid1.jpg'),
-    (6, 'Game Reaches 1M Players', 'The game has reached 1 million active players worldwide.', '/images/1m_players.jpg'),
-    (7, 'Exclusive Mount Giveaway', 'Log in during the event to claim an exclusive mount.', '/images/mount_event.jpg'),
-    (8, 'Developer Q&A', 'Developers will host a live Q&A session on June 20.', '/images/dev_qa.jpg'),
-    (9, 'Summer Event Begins', 'The summer event includes quests, rewards, and a new boss.', '/images/summer_event.jpg'),
-    (10, 'Leaderboard Reset', 'The season leaderboard has been reset for competitive modes.', '/images/leaderboard_reset.jpg'),
-    (11, 'Server Maintenance Scheduled', 'Servers will undergo maintenance on June 18.', '/images/maintenance.jpg'),
-    (12, 'New Class Introduced', 'The new Bard class is now available for all players.', '/images/bard.jpg'),
-    (13, 'Bug Bounty Program Launched', 'Report bugs and earn in-game rewards.', '/images/bug_bounty.jpg'),
-    (14, 'Guild Wars Season 3', 'Season 3 of Guild Wars starts this month.', '/images/guild_wars.jpg'),
-    (15, 'Rare Loot Drop Rate Increased', 'Enjoy higher drop rates for rare items this weekend.', '/images/loot_drop.jpg'),
-    (16, 'Community Art Contest', 'Submit your art for a chance to win prizes.', '/images/art_contest.jpg'),
-    (17, 'Game Anniversary Event', 'Celebrate the game\'s 2nd anniversary with special rewards.', '/images/anniversary.jpg'),
-    (18, 'Player Spotlight', 'Meet this month\'s featured player: DragonSlayer99.', '/images/player_spotlight.jpg'),
-    (19, 'Guild Recruitment Week', 'Find the perfect guild during recruitment week.', '/images/guild_recruitment.jpg'),
-    (20, 'Exclusive Discount Event', 'Save big on in-game purchases this week.', '/images/discount_event.jpg');
+    ('New Expansion Released!', 'The latest expansion introduces new maps, bosses, and loot.', '/images/gameNews.jpg'),
+    ('Patch Notes Update', 'Patch 1.23 brings balance changes and bug fixes.', '/images/gameNews2.jpg'),
+    ('Double XP Weekend', 'Players can enjoy double XP from June 10 to June 12.', '/images/gameNews3.jpg'),
+    ('PvP Tournament Announced', 'The annual PvP tournament will start on July 15.', '/images/gameNews4.jpg'),
+    ('New Raid Unlocked', 'A challenging new raid is now available for high-level players.', '/images/gameNews.jpg'),
+    ('Game Reaches 1M Players', 'The game has reached 1 million active players worldwide.', '/images/gameNews2.jpg'),
+    ('Exclusive Mount Giveaway', 'Log in during the event to claim an exclusive mount.', '/images/gameNews3.jpg'),
+    ('Developer Q&A', 'Developers will host a live Q&A session on June 20.', '/images/gameNews4.jpg'),
+    ('Summer Event Begins', 'The summer event includes quests, rewards, and a new boss.', '/images/gameNews.jpg'),
+    ('Leaderboard Reset', 'The season leaderboard has been reset for competitive modes.', '/images/gameNews2.jpg'),
+    ('Server Maintenance Scheduled', 'Servers will undergo maintenance on June 18.', '/images/gameNews3.jpg'),
+    ('New Class Introduced', 'The new Bard class is now available for all players.', '/images/gameNews4.jpg'),
+    ('Bug Bounty Program Launched', 'Report bugs and earn in-game rewards.', '/images/gameNews.jpg'),
+    ('Guild Wars Season 3', 'Season 3 of Guild Wars starts this month.', '/images/gameNews2.jpg'),
+    ('Rare Loot Drop Rate Increased', 'Enjoy higher drop rates for rare items this weekend.', '/images/gameNews3.jpg'),
+    ('Community Art Contest', 'Submit your art for a chance to win prizes.', '/images/gameNews4.jpg'),
+    ('Game Anniversary Event', 'Celebrate the game\'s 2nd anniversary with special rewards.', '/images/gameNews.jpg'),
+    ('Player Spotlight', 'Meet this month\'s featured player: DragonSlayer99.', '/images/gameNews2.jpg'),
+    ('Guild Recruitment Week', 'Find the perfect guild during recruitment week.', '/images/gameNews3.jpg'),
+    ('Exclusive Discount Event', 'Save big on in-game purchases this week.', '/images/gameNews4.jpg'),
+    ('Winter Festival Announced', 'Celebrate the season with winter-themed events and rewards.', '/images/gameNews.jpg'),
+    ('Legendary Weapon Crafting Guide', 'A new guide to help players craft legendary weapons.', '/images/gameNews2.jpg'),
+    ('Weekly Dungeon Challenge', 'Complete the weekly dungeon challenge for exclusive loot.', '/images/gameNews3.jpg'),
+    ('Upcoming Balance Patch Preview', 'Developers preview the changes in the upcoming balance patch.', '/images/gameNews4.jpg');
 
 -- 게임 카테고리 테이블
 CREATE TABLE IF NOT EXISTS Game_Category (
@@ -186,11 +213,12 @@ CREATE TABLE Guide_Comments (
 CREATE TABLE News_Comments (
     comment_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     news_id BIGINT NOT NULL,
-    user_id BIGINT NOT NULL,
+    author VARCHAR(100) NOT NULL, -- 작성자 이름 필드 추가
     content TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
 
 INSERT INTO Guide_Comments (guide_id, user_id, content)
 VALUES
@@ -199,9 +227,9 @@ VALUES
 (2, 13, '잘못된 정보가 있는 것 같아요. 수정 부탁드립니다.'),
 (3, 14, '다음 업데이트 때 새로운 공략도 부탁드려요!');
 
-INSERT INTO News_Comments (news_id, user_id, content)
+INSERT INTO News_Comments (news_id, author, content)
 VALUES
-(1, 5, '이 게임 업데이트 너무 기대됩니다!'),
-(1, 6, '패치 내용이 정말 마음에 듭니다.'),
-(2, 7, '이 뉴스는 오래된 것 같은데요?'),
-(3, 8, '다른 소식도 업데이트 부탁드려요!');
+(1, 'player_one', '이 게임 업데이트 너무 기대됩니다!'),
+(1, 'game_fan99', '패치 내용이 정말 마음에 듭니다.'),
+(2, 'critic_john', '이 뉴스는 오래된 것 같은데요?'),
+(3, 'gamer_girl', '다른 소식도 업데이트 부탁드려요!');
