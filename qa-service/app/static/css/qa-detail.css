@@ -1,81 +1,182 @@
-/* 질문 상세 페이지 스타일 */
-.qa-detail-container {
+/* 컨테이너 스타일 */
+.gd-container {
     background-color: #ffffff;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 30px;
 }
 
-.qa-detail-title {
-    font-size: 1.8em;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.qa-detail-meta {
-    display: flex;
-    justify-content: space-between;
+/* 카드 스타일 */
+.gd-card {
     margin-bottom: 20px;
-    font-size: 0.9em;
-    color: #666;
+    border: none;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.qa-detail-author, .qa-detail-views {
+.gd-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.gd-card-header {
+    background-color: #030303;
+    color: #c4c4c4;
+    padding: 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.gd-p {
+    color: #c4c4c4 !important;
+    font-size: 0.9rem;
     margin: 0;
 }
 
-.qa-detail-content {
-    font-size: 1.2em;
+.gd-card-header h2 {
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+}
+
+.gd-card-body {
+    padding: 20px;
+    font-size: 1rem;
     line-height: 1.6;
-    color: #444;
-    margin-bottom: 30px;
+    color: #333;
 }
 
-.qa-detail-back {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #333333;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
-}
-
-.qa-detail-back:hover {
-    background-color: #3f3f3f;
-}
-
-.qa-answer-list {
-    list-style: none;
-    padding: 0;
-}
-
-.qa-answer-list li {
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-}
-
-.qa-answer-form textarea {
+/* 목록으로 돌아가기 버튼 */
+.gd-btn-secondary {
     width: 100%;
-    height: 100px;
-    margin-bottom: 10px;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    display: inline-block;
+    height: 40px;
+    text-align: center;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.qa-answer-form button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #3a3a3a;
+.gd-btn-secondary:hover {
+    background-color: #000;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+/* 답변 테이블 스타일 */
+.gd-table {
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+}
+
+.gd-table th,
+.gd-table td {
+    padding: 10px;
+    text-align: left;
+    border-top: 1px solid #ddd;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.gd-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.gd-table tbody tr:nth-child(odd) {
+    background-color: #fafafa;
+}
+
+.gd-table tbody tr:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+    .gd-container {
+        padding: 15px;
+    }
+
+    .gd-card-header {
+        font-size: 1.2rem;
+        padding: 10px;
+    }
+
+    .gd-card-body {
+        font-size: 0.9rem;
+        padding: 15px;
+    }
+
+    .gd-btn-secondary {
+        font-size: 0.8rem;
+        padding: 8px 12px;
+    }
+}
+
+/* 버튼 스타일 */
+.gd-button {
+    background-color: #333;
     color: #fff;
     border: none;
-    border-radius: 5px;
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-block;
+    height: 40px;
+    line-height: 1.2;
+    text-transform: uppercase;
+    width: 100%;
 }
 
-.qa-answer-form button:hover {
-    background-color: #474747;
+.gd-button:hover {
+    background-color: #000;
+    transform: scale(1.05);
+}
+
+.gd-button:focus {
+    outline: none;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+/* 댓글 작성 섹션 */
+.gd-form {
+    margin-top: 20px;
+}
+
+.gd-textarea {
+    width: 100%;
+    resize: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #f9f9f9;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.gd-textarea:focus {
+    outline: none;
+    border-color: #333;
+    background-color: #fff;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
 }

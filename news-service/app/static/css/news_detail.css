@@ -1,42 +1,55 @@
 /* 컨테이너 스타일 */
 .news-container {
     background-color: #ffffff;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 30px;
-}
-
-.news-image {
-    text-align: center; /* 이미지 가운데 정렬 */
     margin-bottom: 20px;
 }
 
-.news-image img {
-    max-width: 100%; /* 부모 컨테이너 너비에 맞춤 */
-    height: auto; /* 비율 유지 */
-    border-radius: 5px; /* 모서리 둥글게 */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+/* 뉴스 제목 */
+.news-title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 15px;
 }
 
+/* 뉴스 이미지 */
+.news-image {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.news-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 뉴스 내용 */
 .news-content {
     font-size: 1rem;
     line-height: 1.6;
-    color: #333;
+    color: #444;
     margin-bottom: 30px;
 }
 
+/* 댓글 섹션 */
 .news-comments {
     margin-top: 30px;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: #fafafa;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .comments-title {
     font-size: 1.5rem;
-    margin-bottom: 15px;
     font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
 }
 
 .comments-list {
@@ -46,56 +59,88 @@
 }
 
 .comment {
-    margin-bottom: 10px;
-    padding: 10px;
+    background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
-    background-color: #ffffff;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.news-comment-form {
+/* 댓글 작성 섹션 */
+.comment-form {
     margin-top: 20px;
-    display: flex;
-    flex-direction: column;
 }
 
-.news-comment-form textarea {
-    resize: vertical;
+.comment-textarea {
+    width: 100%;
+    resize: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
     padding: 10px;
     font-size: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    height: 100px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
-.news-comment-submit {
-    padding: 10px 20px;
-    font-size: 1rem;
+.comment-textarea:focus {
+    border-color: #007bff;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* 댓글 등록 버튼 */
+.comment-submit-btn {
     background-color: #007bff;
-    color: white;
+    color: #fff;
     border: none;
-    border-radius: 5px;
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.news-comment-submit:hover {
+.comment-submit-btn:hover {
     background-color: #0056b3;
+    transform: scale(1.05);
 }
 
+/* 목록으로 돌아가기 버튼 */
 .news-back-button {
     display: inline-block;
     margin-top: 20px;
-    padding: 10px 20px;
+    padding: 10px 15px;
     font-size: 1rem;
-    background-color: #f0f0f0;
-    color: #333;
+    background-color: #333;
+    color: #fff;
     text-decoration: none;
     border-radius: 5px;
-    transition: background-color 0.2s ease-in-out;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-align: center;
 }
 
 .news-back-button:hover {
-    background-color: #ddd;
+    background-color: #000;
+    transform: scale(1.05);
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .news-container {
+        padding: 15px;
+    }
+
+    .news-title {
+        font-size: 1.5rem;
+    }
+
+    .comment-textarea {
+        font-size: 0.9rem;
+    }
+
+    .comment-submit-btn, .news-back-button {
+        font-size: 0.9rem;
+    }
 }

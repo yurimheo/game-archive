@@ -16,6 +16,7 @@
                 {% for guide in popular_guides %}
                 <li>
                     <a href="{{ url_for('guide.guide_detail', guide_id=guide.guide_id) }}">{{ guide.title }}</a> 조회수 {{ guide.views }}
+                    <span>작성자: {{ guide.author_name }} | 조회수: {{ guide.views }}</span>
                 </li>
                 {% endfor %}
             </ul>

@@ -1,80 +1,119 @@
-/* 공통 스타일 */
+/* 전체 컨테이너 스타일 */
 .qa-create-container {
     background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 30px;
-    max-width: 600px;
-    margin: 20px auto;
-    font-family: 'Arial', sans-serif;
 }
 
+/* 제목 스타일 */
 .qa-create-title {
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: bold;
-    text-align: center;
-    color: #333333;
     margin-bottom: 20px;
+    text-align: center;
+}
+
+/* 폼 스타일 */
+.qa-create-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .qa-create-form-group {
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .qa-create-label {
-    display: block;
     font-size: 1rem;
-    font-weight: bold;
-    color: #555555;
     margin-bottom: 5px;
+    color: #333;
 }
 
 .qa-create-input,
-.qa-create-select,
-.qa-create-textarea {
-    width: 100%;
+.qa-create-textarea,
+.qa-create-select {
+    border: 1px solid #ddd;
+    border-radius: 4px;
     padding: 10px;
     font-size: 1rem;
-    border: 1px solid #cccccc;
-    border-radius: 5px;
-    box-sizing: border-box;
+    color: #333;
+    background-color: #f9f9f9;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.qa-create-input:focus,
+.qa-create-textarea:focus,
+.qa-create-select:focus {
+    border-color: #333;
+    background-color: #fff;
+    outline: none;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
 }
 
 .qa-create-textarea {
     resize: none;
 }
 
+/* 버튼 스타일 */
 .qa-create-buttons {
     display: flex;
     justify-content: space-between;
-}
-
-.qa-create-button-submit,
-.qa-create-button-cancel {
-    padding: 10px 20px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
-    text-align: center;
-    transition: background-color 0.3s ease;
+    gap: 15px;
 }
 
 .qa-create-button-submit {
-    background-color: #007bff;
-    color: #ffffff;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    flex-grow: 1;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .qa-create-button-submit:hover {
-    background-color: #0056b3;
+    background-color: #000;
+    transform: scale(1.05);
 }
 
 .qa-create-button-cancel {
-    background-color: #cccccc;
-    color: #333333;
+    background-color: #ddd;
+    color: #333;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    flex-grow: 1;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .qa-create-button-cancel:hover {
-    background-color: #aaaaaa;
+    background-color: #bbb;
+    transform: scale(1.05);
+}
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+    .qa-create-container {
+        padding: 20px;
+    }
+
+    .qa-create-buttons {
+        flex-direction: column;
+    }
+
+    .qa-create-button-submit,
+    .qa-create-button-cancel {
+        width: 100%;
+    }
 }

@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, make_response, render_template, request, redirect, url_for, flash, session
+from flask import Blueprint, jsonify, make_response, render_template, request, redirect, url_for, flash
 from app.models import SessionLocal, User
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt as pyjwt
@@ -18,7 +18,6 @@ auth_blueprint = Blueprint(
 @auth_blueprint.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        # 폼 데이터 가져오기
         username = request.form.get('username')
         email = request.form.get('email')
         password = request.form.get('password')
@@ -35,7 +34,7 @@ def register():
             flash("비밀번호가 일치하지 않습니다.", "danger")
             return render_template('register.html')
 
-        # 데이터베이스 연결 및 사용자 저장
+        # 데이터베이스에 사용자 추가
         session_db = SessionLocal()
         existing_user = session_db.query(User).filter((User.username == username) | (User.email == email)).first()
         if existing_user:
@@ -71,7 +70,7 @@ def login():
                 {
                     "user_id": user.user_id,
                     "username": user.username,
-                    "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=15) 
+                    "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=15)
                 },
                 SECRET_KEY,
                 algorithm="HS256"
@@ -88,22 +87,9 @@ def login():
             )
 
             # 응답에 쿠키 설정
-            response = redirect(url_for('auth.mypage'))  # 로그인 성공 후 이동할 페이지
-            response.set_cookie(
-                "access_token",
-                access_token,
-                httponly=True,  # JavaScript에서 접근하지 못하도록 설정
-                secure=False,  # HTTPS 환경에서는 True로 설정
-                samesite="Lax"
-            )
-            response.set_cookie(
-                "refresh_token",
-                refresh_token,
-                httponly=True,
-                secure=False,
-                samesite="Lax",
-                domain="127.0.0.1"
-            )
+            response = redirect(url_for('auth.mypage'))
+            response.set_cookie("access_token", access_token, httponly=True, samesite="Lax")
+            response.set_cookie("refresh_token", refresh_token, httponly=True, samesite="Lax")
             return response
 
         flash("아이디 또는 비밀번호가 잘못되었습니다.", "danger")
@@ -148,14 +134,7 @@ def mypage():
 
             # 새 Access Token 쿠키 설정
             response = make_response(redirect(url_for('auth.mypage')))
-            response.set_cookie(
-                "access_token",
-                new_access_token,
-                httponly=True,
-                secure=False,
-                samesite="Lax",
-                domain="127.0.0.1"
-            )
+            response.set_cookie("access_token", new_access_token, httponly=True, samesite="Lax")
             return response
 
         except pyjwt.ExpiredSignatureError:
@@ -180,7 +159,6 @@ def mypage():
 
     # 사용자 정보를 마이페이지 템플릿으로 전달
     return render_template('mypage.html', user=user)
-
 
 # 로그아웃
 @auth_blueprint.route('/logout', methods=['GET', 'POST'])
@@ -218,13 +196,7 @@ def refresh_token():
 
         # Access Token 쿠키 갱신
         response = jsonify({"access_token": new_access_token})
-        response.set_cookie(
-            "access_token",
-            new_access_token,
-            httponly=True,
-            secure=False,
-            samesite="Lax"
-        )
+        response.set_cookie("access_token", new_access_token, httponly=True, samesite="Lax")
         return response, 200
 
     except pyjwt.ExpiredSignatureError:

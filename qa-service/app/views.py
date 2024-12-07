@@ -12,24 +12,31 @@ qa_blueprint = Blueprint(
 )
 
 COMMON_SERVICE_URL = "http://127.0.0.1:5001"  # common-service의 URL
-AUTH_SERVICE_URL = "http://127.0.0.1:5006"  # auth-service의 URL
+AUTH_SERVICE_URL = "http://auth-service:5006"  # auth-service의 URL
 
 def fetch_author_name(user_id):
     """
     Auth 서비스에서 사용자 이름 가져오기
     """
     if not user_id:
-        return "알 수 없는 사용자"
+        return "익명 사용자"
 
     try:
-        response = requests.get(f"{AUTH_SERVICE_URL}/User/{user_id}")
+        url = f"{AUTH_SERVICE_URL}/users/{user_id}"  # 올바른 URL로 수정
+        print(f"[DEBUG] Fetching user from URL: {url}")
+        response = requests.get(url)
+
         if response.status_code == 200:
             user_data = response.json()
-            return user_data.get("username", "알 수 없는 사용자")
+            username = user_data.get("username", "익명 사용자")
+            print(f"[DEBUG] Fetched Username: {username}")
+            return username
         else:
-            return "알 수 없는 사용자"
+            print(f"[ERROR] Failed to fetch user {user_id}. Status: {response.status_code}, Response: {response.text}")
+            return "익명 사용자"
     except requests.RequestException as e:
-        return "알 수 없는 사용자"
+        print(f"[ERROR] Exception while fetching user {user_id}: {e}")
+        return "익명 사용자"
 
 # 질문 목록 페이지
 @qa_blueprint.route('/qa')
@@ -167,13 +174,33 @@ def detail(question_id):
         session_db.commit()
         flash("답변이 성공적으로 등록되었습니다.", 'success')
 
-    # 해당 질문의 답변 목록 조회
+    # 질문 데이터 변환
+    question_data = {
+        "question_id": question.question_id,
+        "title": question.title,
+        "content": question.content,
+        "views": question.views,
+        "author_name": fetch_author_name(question.user_id),
+        "created_at": question.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+    }
+
+    # 답변 목록 조회 및 변환
     answers = session_db.query(Answer).filter(Answer.question_id == question_id).all()
+    answer_data = [
+        {
+            "author_name": fetch_author_name(answer.user_id),
+            "content": answer.content,
+            "created_at": answer.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+        }
+        for answer in answers
+    ]
 
     session_db.close()
 
     return render_template(
         'qa-detail.html',
-        question=question,
-        answers=answers  # 답변 목록 전달
+        question=question_data,
+        answers=answer_data
     )
+
+

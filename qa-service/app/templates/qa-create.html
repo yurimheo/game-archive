@@ -12,7 +12,6 @@
     <div class="qa-create-form-container">
         <form class="qa-create-form" method="POST" action="{{ url_for('qa.create') }}">
             <!-- 작성자 (로그인한 유저) -->
-            {% if user %}
             <div class="qa-create-form-group">
                 <label for="qa-user-id" class="qa-create-label">작성자</label>
                 <input
@@ -20,22 +19,10 @@
                     id="qa-user-name"
                     name="username"
                     class="qa-create-input"
-                    value="{{ user.username }}"
-                />
-            </div>
-            {% else %}
-            <div class="qa-create-form-group">
-                <label for="qa-user-id" class="qa-create-label">작성자</label>
-                <input
-                    type="text"
-                    id="qa-user-name"
-                    name="username"
-                    class="qa-create-input"
-                    value="익명"
+                    value="{{ user.username if user else '익명' }}"
                     readonly
                 />
             </div>
-            {% endif %}
 
             <!-- 제목 -->
             <div class="qa-create-form-group">
@@ -77,7 +64,7 @@
 
             <!-- 버튼 -->
             <div class="qa-create-buttons">
-                <button type="submit" class="qa-create-button-submit">질문 등록</button>
+                <button type="submit" class="qa-create-button-submit">등록하기</button>
                 <a href="{{ url_for('qa.index') }}" class="qa-create-button-cancel">질문 목록</a>
             </div>
         </form>
@@ -87,6 +74,13 @@
 
 {% block extra_js %}
 <script>
-// 추가적인 클라이언트 검증 로직 (필요시 구현)
+// 카테고리 선택 유효성 검사
+document.querySelector('.qa-create-form').addEventListener('submit', function(event) {
+    const category = document.querySelector('#qa-category');
+    if (!category.value) {
+        event.preventDefault();
+        alert('카테고리를 선택해주세요!');
+    }
+});
 </script>
 {% endblock %}
