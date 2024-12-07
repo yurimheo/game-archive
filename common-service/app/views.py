@@ -110,23 +110,3 @@ def main_page():
     games = get_games()
     highlighted_games = games[:12]
     return render_template('main.html', highlighted_games=highlighted_games, user=g.user)
-
-@main_blueprint.route('/search')
-def search():
-    query = request.args.get('query', '').strip()
-    if query:
-        # 예제: 게시판별 검색 결과 데이터 (실제 구현에서는 DB 조회나 API 호출 필요)
-        results = {
-            '질문 게시판': [
-                {'title': '검색 예제 질문 1', 'url': '/question/1', 'summary': '질문 1에 대한 간단한 설명'},
-                {'title': '검색 예제 질문 2', 'url': '/question/2', 'summary': '질문 2에 대한 간단한 설명'},
-            ],
-            '공략 게시판': [
-                {'title': '검색 예제 공략 1', 'url': '/guide/1', 'summary': '공략 1에 대한 간단한 설명'},
-            ],
-            '뉴스 게시판': [],
-        }
-    else:
-        results = None
-
-    return render_template('search_results.html', query=query, results=results)

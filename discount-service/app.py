@@ -1,7 +1,6 @@
 import os
 from app import create_app
 from app.views import discounts_blueprint  # views.py에서 블루프린트 가져오기
-from flask_session import Session
 from flask import g, request
 import redis
 import jwt as pyjwt
@@ -15,14 +14,6 @@ app.register_blueprint(discounts_blueprint, url_prefix='/discounts')
 # Secret Key 설정
 SECRET_KEY = os.getenv("SECRET_KEY", "supersecretkey")
 app.secret_key = SECRET_KEY
-
-# Flask-Session 설정
-app.config["SESSION_TYPE"] = "redis"  # 세션을 Redis로 설정
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_USE_SIGNER"] = True
-app.config["SESSION_REDIS"] = redis.StrictRedis(host='redis', port=6379, db=0)
-
-Session(app)
 
 # JWT 검증 로직
 @app.before_request

@@ -1,7 +1,6 @@
 import os
 from app import create_app
 from app.views import auth_blueprint  # views.py를 import
-from flask_session import Session
 from app.models import init_db
 from flask import Flask, g, request, jsonify
 import jwt as pyjwt
@@ -54,14 +53,6 @@ def get_user_info():
         # 더 많은 사용자 추가
     }
     return jsonify({uid: users.get(uid, {"username": "알 수 없는 사용자"}) for uid in user_ids})
-
-
-# Flask-Session 설정
-app.config["SESSION_TYPE"] = "redis"  # 세션을 Redis로 설정
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_USE_SIGNER"] = True
-app.config["SESSION_REDIS"] = redis.StrictRedis(host='redis', port=6379, db=0)
-Session(app)
 
 # 데이터베이스 초기화
 init_db()
