@@ -54,8 +54,7 @@
                     <!-- 로그인 상태 -->
                     <form class="gd-form" method="POST" action="{{ url_for('guide.guide_detail', guide_id=guide.guide_id) }}">
                         <div class="form-group">
-                            <label for="comment">댓글을 입력하세요</label>
-                            <textarea class="gd-textarea" id="comment" name="content" rows="3" required></textarea>
+                            <textarea class="gd-textarea" id="comment" name="content" rows="3" required placeholder="댓글을 입력하세요 :D"></textarea>
                         </div>
                         <button type="submit" class="gd-button mt-2">댓글 등록</button>
                     </form>

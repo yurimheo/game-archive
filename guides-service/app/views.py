@@ -22,24 +22,24 @@ def fetch_author_name(user_id):
     Auth 서비스에서 사용자 이름 가져오기
     """
     if not user_id:
-        logging.debug("User ID is missing, returning '알 수 없음'")
-        return "알 수 없음"
+        return "익명 사용자"
 
     try:
-        logging.debug(f"Fetching username for user_id: {user_id}")
-        response = requests.get(f"{AUTH_SERVICE_URL}/User/{user_id}")
-        logging.debug(f"Response status code: {response.status_code}")
-        logging.debug(f"Response content: {response.text}")
-        
+        url = f"{AUTH_SERVICE_URL}/users/{user_id}"  # 올바른 URL로 수정
+        print(f"[DEBUG] Fetching user from URL: {url}")
+        response = requests.get(url)
+
         if response.status_code == 200:
             user_data = response.json()
-            return user_data.get("username", "알 수 없음")
+            username = user_data.get("username", "익명 사용자")
+            print(f"[DEBUG] Fetched Username: {username}")
+            return username
         else:
-            logging.warning(f"Failed to fetch username for user_id: {user_id}")
-            return "알 수 없음"
+            print(f"[ERROR] Failed to fetch user {user_id}. Status: {response.status_code}, Response: {response.text}")
+            return "익명 사용자"
     except requests.RequestException as e:
-        logging.error(f"Error fetching username for user_id {user_id}: {e}")
-        return "알 수 없음"
+        print(f"[ERROR] Exception while fetching user {user_id}: {e}")
+        return "익명 사용자"
     
 # 공략 목록 페이지
 @guide_blueprint.route('/')
@@ -53,13 +53,24 @@ def guide_list():
     total_pages = (total_items + per_page - 1) // per_page
     guides = guides_query.offset((page - 1) * per_page).limit(per_page).all()
 
+    # 인기 공략 가져오기 (조회수 기준 상위 3개)
+    popular_guides = (
+        db_session.query(Guide)
+        .order_by(desc(Guide.views))
+        .limit(3)
+        .all()
+    )
+
     # 작성자 이름 가져오기
     for guide in guides:
+        guide.author_name = fetch_author_name(guide.user_id)
+    for guide in popular_guides:
         guide.author_name = fetch_author_name(guide.user_id)
 
     return render_template(
         'guide.html',
         guides=guides,
+        popular_guides=popular_guides,  # 인기 공략 전달
         current_page=page,
         total_pages=total_pages,
         user=g.user  # 템플릿으로 사용자 정보 전달
