@@ -1,7 +1,6 @@
-<!-- templates/qa/create.html -->
 {% extends "base.html" %}
 
-{% block title %}질문 등록 - QA Service{% endblock %}
+{% block title %}Create a Question - Game Archive{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/qa-create.css') }}">
@@ -11,18 +10,16 @@
 <div class="qa-create-container">
     <h1 class="qa-create-title">질문 등록</h1>
     <div class="qa-create-form-container">
-        <h2 class="qa-create-subtitle">새로운 질문 작성하기</h2>
         <form class="qa-create-form" method="POST" action="{{ url_for('qa.create') }}">
             <!-- 작성자 (로그인한 유저) -->
             <div class="qa-create-form-group">
-                <label for="qa-author" class="qa-create-label">작성자</label>
+                <label for="qa-user-id" class="qa-create-label">작성자</label>
                 <input
                     type="text"
-                    id="qa-author"
-                    name="author"
+                    id="qa-user-name"
+                    name="username"
                     class="qa-create-input"
-                    placeholder="로그인 사용자 이름 (자동 입력)"
-                    value="Test User" <!-- 로그인 연동 시 변경 -->
+                    value="{{ user.username if user else '익명' }}"
                     readonly
                 />
             </div>
@@ -67,7 +64,7 @@
 
             <!-- 버튼 -->
             <div class="qa-create-buttons">
-                <button type="submit" class="qa-create-button-submit">질문 등록</button>
+                <button type="submit" class="qa-create-button-submit">등록하기</button>
                 <a href="{{ url_for('qa.index') }}" class="qa-create-button-cancel">질문 목록</a>
             </div>
         </form>
@@ -77,6 +74,13 @@
 
 {% block extra_js %}
 <script>
-// 추가적인 클라이언트 검증 로직 (필요시 구현)
+// 카테고리 선택 유효성 검사
+document.querySelector('.qa-create-form').addEventListener('submit', function(event) {
+    const category = document.querySelector('#qa-category');
+    if (!category.value) {
+        event.preventDefault();
+        alert('카테고리를 선택해주세요!');
+    }
+});
 </script>
 {% endblock %}

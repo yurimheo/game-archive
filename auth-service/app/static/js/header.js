@@ -45,12 +45,4 @@ button.addEventListener('click', function (event) {
 });
 });
 
-// 햄버거 메뉴 토글
-const hamburgerMenuToggle = document.getElementById('hamburger-menuToggle');
-const hamburgerDropdownMenu = document.getElementById('hamburger-dropdownMenu');
 
-if (hamburgerMenuToggle && hamburgerDropdownMenu) {
-    hamburgerMenuToggle.addEventListener('click', () => {
-        hamburgerDropdownMenu.classList.toggle('hidden'); 
-    });
-}

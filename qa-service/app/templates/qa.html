@@ -17,7 +17,7 @@
             <ul class="list-group">
                 {% for question in popular_questions %}
                 <li class="list-group-item">
-                    <a href="{{ url_for('qa.detail', question_id=question.id) }}">{{ question.title }}</a>
+                    <a href="{{ url_for('qa.detail', question_id=question.question_id) }}">{{ question.title }}</a>
                 </li>
                 {% endfor %}
             </ul>
@@ -35,16 +35,17 @@
             </thead>
             <tbody>
                 {% for question in questions %}
-                <tr>
-                    <td>{{ question.id }}</td>
-                    <td>
-                        <a href="{{ url_for('qa.detail', question_id=question.id) }}">{{ question.title }}</a>
-                    </td>
-                    <td>{{ question.author }}</td>
-                    <td>{{ question.views }}</td>
-                </tr>
+                    <tr>
+                        <td>{{ question.question_id }}</td>
+                        <td>
+                            <a href="{{ url_for('qa.detail', question_id=question.question_id) }}">{{ question.title }}</a>
+                        </td>
+                        <td>{{ question.author_name }}</td>
+                        <td>{{ question.views }}</td>
+                    </tr>
                 {% endfor %}
             </tbody>
+            
         </table>
 
         <!-- 페이지네이션 -->

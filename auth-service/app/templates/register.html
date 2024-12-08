@@ -9,22 +9,55 @@
 {% block content %}
 <div class="signup-container">
     <h1 class="app-title">회원가입</h1>
-    <form id="signup-form" class="signup-form">
+    <!-- 플래시 메시지 표시 -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash-message {{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('auth.register') }}" class="signup-form">
         <div class="form-group">
             <label for="username">아이디</label>
-            <input type="text" id="username" name="username" placeholder="아이디를 입력하세요" required>
-        </div>
-        <div class="form-group">
-            <label for="password">비밀번호</label>
-            <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" required>
-        </div>
-        <div class="form-group">
-            <label for="confirm_password">비밀번호 확인</label>
-            <input type="password" id="confirm_password" name="confirm_password" placeholder="비밀번호를 다시 입력하세요" required>
+            <input 
+                type="text" 
+                id="username" 
+                name="username" 
+                placeholder="아이디를 입력하세요" 
+                value="{{ request.form.get('username', '') }}"
+                required>
         </div>
         <div class="form-group">
             <label for="email">이메일</label>
-            <input type="email" id="email" name="email" placeholder="이메일을 입력하세요" required>
+            <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                placeholder="이메일을 입력하세요" 
+                value="{{ request.form.get('email', '') }}"
+                required>
+        </div>
+        <div class="form-group">
+            <label for="password">비밀번호</label>
+            <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                placeholder="비밀번호를 입력하세요" 
+                required>
+        </div>
+        <div class="form-group">
+            <label for="confirm_password">비밀번호 확인</label>
+            <input 
+                type="password" 
+                id="confirm_password" 
+                name="confirm_password" 
+                placeholder="비밀번호를 다시 입력하세요" 
+                required>
         </div>
         <button type="submit" class="signup-btn">회원가입</button>
     </form>
@@ -32,43 +65,4 @@
         이미 계정이 있으신가요? <a href="{{ url_for('auth.login') }}">로그인</a>
     </p>
 </div>
-
-<!-- 알림 메시지 -->
-<div id="signup-message" class="message hidden"></div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-document.getElementById('signup-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    const formData = new FormData(event.target);
-    const messageDiv = document.getElementById('signup-message');
-    
-    fetch("{{ url_for('auth.register') }}", {
-        method: "POST",
-        body: formData,
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            messageDiv.className = "message success";
-            messageDiv.textContent = "회원가입이 성공적으로 완료되었습니다!";
-            setTimeout(() => {
-                window.location.href = "{{ url_for('auth.login') }}";
-            }, 2000); // 2초 후 로그인 페이지로 리다이렉트
-        } else {
-            messageDiv.className = "message error";
-            messageDiv.textContent = data.error;
-        }
-        messageDiv.classList.remove('hidden');
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        messageDiv.className = "message error";
-        messageDiv.textContent = "오류가 발생했습니다. 다시 시도해주세요.";
-        messageDiv.classList.remove('hidden');
-    });
-});
-</script>
 {% endblock %}

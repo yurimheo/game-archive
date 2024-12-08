@@ -1,8 +1,33 @@
 {% extends 'base.html' %}
+
 {% block title %}마이페이지{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mypage.css') }}">
+{% endblock %}
+
 {% block content %}
-<h1>마이페이지</h1>
-<p>사용자명: {{ user.username }}</p>
-<p>이메일: {{ user.email }}</p>
-<p>가입일: {{ user.join_date }}</p>
+<div class="mypage-container">
+    <h1 class="mypage-title">마이페이지</h1>
+    <div class="mypage-card">
+        <div class="mypage-avatar">
+            <img src="{{ url_for('static', filename='images/default-avatar.jpg') }}" alt="User Avatar">
+        </div>
+        <div class="mypage-info">
+            <h2>{{ user.username }}</h2>
+            <p><strong>이메일:</strong> {{ user.email }}</p>
+            <p><strong>가입일:</strong> {{ user.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+            <p><strong>마지막 로그인:</strong> 
+                {% if user.last_login %}
+                    {{ user.last_login.strftime('%Y-%m-%d %H:%M:%S') }}
+                {% else %}
+                    기록 없음
+                {% endif %}
+            </p>
+        </div>
+    </div>
+    <div class="mypage-actions">
+        <a href="{{ url_for('auth.logout') }}" class="btn logout-btn">로그아웃</a>
+    </div>
+</div>
 {% endblock %}

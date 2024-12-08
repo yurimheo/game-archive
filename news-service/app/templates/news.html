@@ -14,9 +14,11 @@
         <div class="news-popular-news">
             <h2>🔥 인기 뉴스</h2>
             <ul class="news-list-unstyled">
-                <li class="news-list-item"><a href="#">게임 뉴스 더미 테스트 1</a> | 2024. 11. 26.</li>
-                <li class="news-list-item"><a href="#">게임 뉴스 더미 테스트 2</a> | 2024. 11. 26.</li>
-                <li class="news-list-item"><a href="#">게임 뉴스 더미 테스트 3</a> | 2024. 11. 25.</li>
+                {% for news in popular_news_list %}
+                <li class="news-list-item">
+                    <a href="{{ url_for('news.news_detail', news_id=news.news_id) }}">{{ news.title }}</a> | {{ news.date }}
+                </li>
+                {% endfor %}
             </ul>
         </div>
 
@@ -24,9 +26,9 @@
         <div class="news-cards">
             {% for news in news_list %}
             <div class="news-card">
-                <img src="{{ news.image_url }}" alt="News Image" class="news-card-img">
+                <img src="{{ url_for('static', filename=news.image_url) }}" alt="News Image" class="news-card-img">
                 <div class="news-card-content">
-                    <a href="{{ url_for('news.news_detail', news_id=news.id) }}" class="news-card-title">{{ news.title }}</a>
+                    <a href="{{ url_for('news.news_detail', news_id=news.news_id) }}" class="news-card-title">{{ news.title }}</a>
                     <p class="news-card-date">{{ news.date }}</p>
                 </div>
             </div>
@@ -36,21 +38,19 @@
         <!-- 페이지네이션 -->
         <div class="news-pagination">
             {% if current_page > 1 %}
-            <a href="{{ url_for('news.news', page=current_page - 1) }}" class="news-pagination-prev">&lt;</a>
+            <a href="{{ url_for('news.news_list', page=current_page - 1) }}" class="news-pagination-prev">&lt;</a>
             {% endif %}
             
             {% for page in range(1, total_pages + 1) %}
-            <a href="{{ url_for('news.news', page=page) }}" class="{% if page == current_page %}news-pagination-active{% else %}news-pagination-link{% endif %}">
+            <a href="{{ url_for('news.news_list', page=page) }}" class="{% if page == current_page %}news-pagination-active{% else %}news-pagination-link{% endif %}">
                 {{ page }}
             </a>
             {% endfor %}
             
             {% if current_page < total_pages %}
-            <a href="{{ url_for('news.news', page=current_page + 1) }}" class="news-pagination-next">&gt;</a>
+            <a href="{{ url_for('news.news_list', page=current_page + 1) }}" class="news-pagination-next">&gt;</a>
             {% endif %}
         </div>
-        
-        
     </div>
 </div>
 {% endblock %}

@@ -85,8 +85,9 @@
 }
 
 .news-card-img {
-    width: 100%;
-    height: auto;
+    width: 100%; /* 카드의 너비에 맞춤 */
+    height: 130px; /* 고정 높이 설정 */
+    object-fit: cover; /* 이미지 비율을 유지하면서 크기에 맞게 잘림 */
     margin-bottom: 10px;
     border-radius: 5px;
 }

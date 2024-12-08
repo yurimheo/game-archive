@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   mysql:
-    image: sh330400/mysql8:1.0.1
+    image: mysql:8.0
     container_name: mysql-container
     networks:
       - app-network
@@ -16,6 +16,7 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
   common-service:
     build:
@@ -27,7 +28,7 @@ services:
     environment:
       FLASK_ENV: development
       DATABASE_URI: mysql+pymysql://admin:admin@mysql:3306/game_archive
-      SECRET_KEY: your_secret_key_here
+      SECRET_KEY: supersecretkey
     ports:
       - "5001:5001"
     depends_on:
@@ -43,6 +44,7 @@ services:
     environment:
       FLASK_ENV: development
       DATABASE_URI: mysql+pymysql://admin:admin@mysql:3306/game_archive
+      SECRET_KEY: supersecretkey
     ports:
       - "5002:5002"
     depends_on:
@@ -58,6 +60,7 @@ services:
     environment:
       FLASK_ENV: development
       DATABASE_URI: mysql+pymysql://admin:admin@mysql:3306/game_archive
+      SECRET_KEY: supersecretkey
     ports:
       - "5003:5003"
     depends_on:
@@ -73,6 +76,7 @@ services:
     environment:
       FLASK_ENV: development
       DATABASE_URI: mysql+pymysql://admin:admin@mysql:3306/game_archive
+      SECRET_KEY: supersecretkey
     ports:
       - "5004:5004"
     depends_on:
@@ -88,7 +92,7 @@ services:
     environment:
       FLASK_ENV: development
       DATABASE_URI: mysql+pymysql://admin:admin@mysql:3306/game_archive
-      SECRET_KEY: your_secret_key_here
+      SECRET_KEY: supersecretkey
     ports:
       - "5005:5005"
     depends_on:
@@ -104,6 +108,8 @@ services:
     environment:
       FLASK_ENV: development
       DATABASE_URI: mysql+pymysql://admin:admin@mysql:3306/game_archive
+      SECRET_KEY: supersecretkey
+      REFRESH_SECRET_KEY: "superrefreshsecretkey"
     ports:
       - "5006:5006"
     depends_on:
@@ -119,6 +125,7 @@ services:
     environment:
       FLASK_ENV: development
       DATABASE_URI: mysql+pymysql://admin:admin@mysql:3306/game_archive
+      SECRET_KEY: supersecretkey
     ports:
       - "5007:5007"
     depends_on:

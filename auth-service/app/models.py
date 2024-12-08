@@ -1,32 +1,25 @@
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, BigInteger, String, DateTime, func, create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
-db = SQLAlchemy()
+Base = declarative_base()
 
-class User(db.Model):
-    __tablename__ = 'user_table'
+DATABASE_URI = "mysql+pymysql://admin:admin@mysql:3306/game_archive"  # 실제 MySQL 서버 정보
+engine = create_engine(DATABASE_URI)
 
-    # 필드 정의
-    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.String(45), unique=True, nullable=False)  # 아이디
-    password = db.Column(db.String(100), nullable=False)  # 비밀번호
-    email = db.Column(db.String(100), unique=True, nullable=False)  # 이메일
-    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())  # 생성일
-    updated_at = db.Column(db.DateTime, onupdate=db.func.now())  # 수정일
-    last_login = db.Column(db.DateTime, nullable=True)  # 마지막 로그인 시간
+# 세션 설정
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-    # 관계 정의
-    questions = db.relationship('Question', backref='user', lazy=True)  # 질문 테이블과 관계
-    guides = db.relationship('Guide', backref='user', lazy=True)  # 공략 테이블과 관계
-    news = db.relationship('News', backref='user', lazy=True)  # 뉴스 테이블과 관계
+# User 테이블 정의
+class User(Base):
+    __tablename__ = 'User'
 
-    def __init__(self, username, password, email):
-        self.username = username
-        self.password = password
-        self.email = email
+    user_id = Column(BigInteger, primary_key=True, autoincrement=True)
+    username = Column(String(50), unique=True, nullable=False)
+    password = Column(String(255), nullable=False)
+    email = Column(String(100), unique=True, nullable=False)
+    created_at = Column(DateTime, default=func.current_timestamp())
+    updated_at = Column(DateTime, default=func.current_timestamp(), onupdate=func.current_timestamp())
 
-    def save(self):
-        db.session.add(self)
-        db.session.commit()
-
-    def __repr__(self):
-        return f'<User {self.username}>'
+def init_db():
+    Base.metadata.create_all(bind=engine)
