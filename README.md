@@ -1,230 +1,139 @@
-![](https://images.unsplash.com/photo-1615503340293-27951e043eae?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+# 🎮 Game Archive: 하이브리드 클라우드 기반 게임 커뮤니티 플랫폼
 
-# 🌟 Game Archive - 게임 커뮤니티 프로젝트 🌟
+> AWS와 온프레미스를 연동한 실전형 DevOps 프로젝트,  
+> 인프라 자동화부터 MSA 마이그레이션까지 직접 구축한 **게임 커뮤니티 웹서비스**
 
-**팀명:** 팀 아카이브  
-**프로젝트명:** Game Archive  
-
-**Game Archive**는 게임 커뮤니티 사용자들이 더 쉽게 소통하고 정보를 공유할 수 있도록 돕는 플랫폼입니다.  
-온프레미스 Kubernetes 클러스터로 시작해 클라우드 기반 **마이크로서비스 아키텍처(MSA)**를 구축하여,  
-
-- ✅ **확장성**  
-- ✅ **안정성**  
-- ✅ **운영 효율성**  
-
-을 모두 갖춘 플랫폼을 목표로 개발 중입니다.
+![badge](https://img.shields.io/badge/Platform-Hybrid_Cloud-orange)
+![badge](https://img.shields.io/badge/Infra-AWS_+_OnPrem-lightgrey)
+![badge](https://img.shields.io/badge/Automation-Terraform_·_Ansible-blue)
+![badge](https://img.shields.io/badge/Backend-Flask-%23000000)
+![badge](https://img.shields.io/badge/Orchestration-Kubernetes-%23326CE5)
+![badge](https://img.shields.io/badge/CI/CD-GitHub_Actions_·_ArgoCD-green)
+![badge](https://img.shields.io/badge/Monitoring-Prometheus_·_Grafana-red)
 
 ---
 
-## ✨ 인프라 아키텍처 (수정 필요)
-![이미지 설명](https://i.imgur.com/xr6VjlO.png)
+## 🧾 프로젝트 개요
 
-## 🖼 사이트맵
-![](https://i.imgur.com/Mx0T06v.png)
-
----
-
-## 🎯 프로젝트 목표
-
-### 🚀 핵심 목표
-1. **Kubernetes 클러스터 구축**  
-2. **Flask 기반 마이크로서비스 애플리케이션 개발**  
-3. **AWS 클라우드 전환** 및 **Terraform/Ansible**을 활용한 인프라 자동화  
-4. **CI/CD 파이프라인 도입** (GitHub Actions + ArgoCD)  
-5. **Prometheus**와 **Grafana**를 활용한 모니터링 및 대시보드 구축  
-6. **게시판 CRUD 최적화** 및 **JWT 인증 체계 구현**  
+- **프로젝트명**: 하이브리드 클라우드 기반 게임 커뮤니티 웹서비스  
+- **진행 기간**: 2024.11 ~ 2024.12  
+- **팀 구성**: 6인 (팀장)  
+- **주요 기술스택**: Flask, Docker, Kubernetes, Ansible, Terraform, MySQL, Nginx, AWS, Prometheus, Grafana  
 
 ---
 
-## 📌 프로젝트 범위
+## 🧩 프로젝트 소개
 
-### 🛠️ 프로젝트 준비 단계
-- **기초 인프라 설계:**  
-  온프레미스 환경에서 Kubernetes 클러스터 설계 및 구축.  
-- **애플리케이션 프로토타입 개발:**  
-  Flask와 MySQL 기반의 간단한 애플리케이션 설계.  
-- **CI/CD 파이프라인 준비:**  
-  GitHub Actions와 Docker Registry (Harbor)를 활용한 파이프라인 설계.  
+이 프로젝트는 **AWS와 온프레미스를 연동한 하이브리드 클라우드 인프라** 위에서 운영되는  
+**MSA 기반 게임 커뮤니티 플랫폼**을 구축한 실전형 DevOps 경험입니다.
+
+초기에는 모놀리식 구조에서 시작해 **MSA로 마이그레이션**하며 아키텍처 구조 설계의 유연성을 경험했고,  
+**Terraform + Ansible로 인프라를 자동화**, CI/CD, 모니터링, 테스트까지 전체 시스템을 직접 설계하고 운영했습니다.
 
 ---
 
-## 🔍 기대 효과
-- 🎉 **확장성 강화:**  
-  유저 증가에도 안정적으로 대응 가능한 플랫폼.  
-- 🎉 **운영 효율성 향상:**  
-  클라우드 네이티브 환경 도입으로 유지보수와 배포 시간 단축.  
-- 🎉 **안정성 확보:**  
-  트래픽 부하 테스트와 모니터링으로 **서비스 중단 없는 운영 실현.**
+## 🧰 주요 기여 및 역할 (팀장 / 인프라 & 백엔드 총괄)
+
+### 🎯 PM 및 협업 리딩
+- 전체 일정 관리, 역할 분배, 문서화 및 기술 커뮤니케이션 총괄
+
+### ☁️ Terraform: AWS 리소스 IaC 구성
+- VPC, EC2, RDS, S3, ALB 등 인프라 구성 자동화
+- 모듈화 및 재사용 가능한 Terraform 구조 설계
+
+### 🔧 Ansible: 온프레미스 서버 자동화 및 K8s 클러스터 설치
+- Kubespray 없이 직접 구성한 **커스텀 Playbook 기반 K8s 구축**
+    - `site.yml`, `install-helm-ingress-nginx.yml`, `install_argocd.yml`, `set_google_dns.yml`
+- Helm, Ingress, ArgoCD, MetalLB, DNS 설정 자동화
+- SSH 키 배포, 사용자 설정, 인벤토리 구성 등 서버 초기 세팅 자동화
+
+### 🌐 웹서비스 개발 (Flask)
+- **Q&A, 뉴스, 공략 게시판 등 CRUD 기능 전체 구현**
+- 공통 템플릿 구성 (Jinja2), API 분리 기반 MSA 설계
+- 서비스별 Flask 앱 분리 및 API 마이그레이션 수행
+
+### 🛢️ DB 설계 및 연동
+- 각 API 서비스에 맞춘 **MySQL 스키마 설계**
+- 데이터 정규화 및 관계 설계 → 서비스 분리 시에도 구조 유연성 확보
+- SQLAlchemy ORM 기반 DB 연결 및 마이그레이션 적용
+
+### 📄 문서화 및 설계 시각화
+- 아키텍처 다이어그램, 플로우 차트, README 및 명세서 작성
 
 ---
 
-## 🛠️ 사용 기술 스택
+## 📊 인프라 아키텍처
 
-### 💻 개발 언어 및 프레임워크
-- **Flask**
-- **MySQL**
+![Game Archive 인프라 아키텍처](https://i.postimg.cc/d368skK5/team-archive-infrastructure-architecture.png)
 
-### 📦 컨테이너 기술
-- **Docker**
-- **Kubernetes**
-- **Helm**
+## 🔄 서비스 플로우차트
 
-### 🔧 자동화 도구
-- **Ansible**
-- **Terraform**
+> 사용자 관점에서 서비스가 어떻게 흐르고 연결되는지를 한눈에 파악할 수 있도록 직접 설계한 플로우 차트입니다.
 
-### 🚀 CI/CD 도구
-- **GitHub Actions**
-- **ArgoCD**
+![서비스 플로우차트](https://i.postimg.cc/qvS2vH9H/Team3-Flow-Chart-drawio-1.png)
 
-### 📊 모니터링
-- **Prometheus**
-- **Grafana**
+### 📦 CI/CD 파이프라인
+- GitHub Actions: 코드 커밋 → Docker 이미지 빌드
+- DockerHub 업로드 → ArgoCD로 자동 배포
+- Slack으로 배포 상태 자동 알림 전송
 
-### 🔒 인증
-- **JWT**
+### 🧩 Kubernetes 클러스터
+- 온프레미스에 구성된 MSA 기반 서비스 구조
+- Helm으로 API 서비스(Nginx + Flask) 반복 배포 및 관리
+- 각 서비스는 MySQL 인스턴스와 독립 연결
 
----
+### 🌐 네트워크 및 이중화
+- Nginx Master/Slave 구성 + Keepalived로 고가용성 확보
+- Ingress Controller 통해 외부 요청 및 서비스 트래픽 처리
 
-## 📜 주요 작업 진행 상황
-
-| 작업 단계          | 진행 상황              |
-|--------------------|-----------------------|
-| 기초 인프라 설계    | ✅ 진행 중              |
-| 애플리케이션 프로토타입 | ✅ 설계 완료 및 구현 중    |
-| CI/CD 파이프라인 준비 | 🔄 진행 예정            |
-| 클라우드 전환 준비   | 🔄 예정 단계 (Terraform 활용) |
-
-**Game Archive**는 팀 아카이브의 열정과 기술력으로 지속적으로 발전해나갈 것입니다! 🚀
+### 📈 모니터링 및 테스트
+- Prometheus + Grafana: 실시간 메트릭 수집 및 시각화
+- AlertManager + Slack: 장애 발생 알림 설정
+- JMeter, LitmusChaos: 부하 및 장애 주입 테스트 수행
 
 ---
 
-# 🚀 Git 사용 가이드
+## 🚧 기술적 이슈 & 해결 경험
 
-이 문서는 **Game Archive 프로젝트**에서 Git을 올바르게 사용하는 방법을 안내합니다. 모든 팀원은 이 지침을 따라 Git을 활용해주세요.
-
----
-
-## **1️⃣ 프로젝트 클론하기**
-
-프로젝트 작업을 시작하기 전에, GitHub에서 프로젝트를 자신의 로컬 환경으로 복사합니다.
-
-1. **터미널을 열고 작업 디렉토리로 이동**
-   ```bash
-   cd /path/to/your/workspace
-
-2. **GitHub에서 프로젝트 클론**
-   ```bash
-   git clone https://github.com/yurimheo/game-archive-flask-msa-k8s-Iac.git
-
-3. **프로젝트 디렉토리로 이동**
-   ```bash
-   cd game-archive-flask-msa-k8s-Iac
-
-## **2️⃣ 브랜치 생성 및 사용법**
-
-### **💡 브랜치 네이밍 규칙**
-- 각 팀원은 자신의 **이니셜**과 작업 내용을 활용한 브랜치를 사용합니다.
-- 브랜치 이름 형식:  
-  - **`feature/<이니셜>/<작업내용>`**
-  - 예: `feature/hjw/login-function`
+| 이슈 | 해결 방법 |
+|------|-----------|
+| 서비스 간 DB 연결 오류, 지연 현상 | 연결 방식 변경 및 DB 설정 튜닝 후 해결 |
+| 초기 모놀리식 구조 → MSA 전환 시 API 재설계 | Flask Blueprint 및 서비스별 독립 구조 도입 |
+| K8s 배포 환경 설정 충돌 | Helm 값 분리 및 재빌드 전략 적용 |
+| CI/CD 파이프라인 오작동 | GitHub Actions 로그 기반 디버깅 및 Docker 재빌드 |
 
 ---
 
-### **🌠 브랜치 생성 방법**
+## 🌱 회고 및 성장
 
-1. **현재 브랜치 확인**
-   현재 작업 중인 브랜치를 확인합니다:
-   ```bash
-   git branch
+이번 프로젝트를 통해 **DevOps의 핵심 흐름**을 실무처럼 체험할 수 있었습니다.
 
-2. **새 브랜치 생성**
-   작업할 새로운 브랜치를 생성하고 해당 브랜치로 이동합니다:
-   ```bash
-   git checkout -b feature/<이니셜>/<작업내용>
-   # 예: git checkout -b feature/hjw/login-function
+- **Terraform과 Ansible로 인프라 자동화**의 실질적인 구현력 향상
+- 구조 설계 미숙으로 겪었던 어려움을 통해, **초기 설계의 중요성**을 체감
+- AWS와 온프레미스를 연동한 하이브리드 인프라 운영 경험을 통해  
+  **클라우드 네이티브 환경에 대한 확신과 방향성**을 얻게 되었습니다.
 
-3. **작업 후 변경 사항 커밋**
-   작업한 내용을 저장소에 반영합니다:
-   ```bash
-   git add .
-   git commit -m "작업 내용을 설명하는 커밋 메시지"
-   # 예: git commit -m "Add login function for user authentication"
-
-4. **원격 저장소로 브랜치 푸시**
-   로컬에서 생성한 브랜치를 GitHub 원격 저장소에 업로드합니다:
-   ```bash
-   git push origin feature/<이니셜>/<작업내용>
-   # 예: git push origin feature/hjw/login-function
+> 학습의 단계를 넘어, 실전에서 동작하는 구조를 만든 경험은  
+> 앞으로의 **DevOps 및 시스템 엔지니어링 커리어의 중요한 전환점**이 되었습니다.
 
 ---
 
-## **➕ `develop` 브랜치 본인 브랜치로 옮기기**
+## 🧑‍💻 실행 방법
 
-작업 전 최신 코드를 유지하기 위해 `develop` 브랜치의 내용을 본인의 작업 브랜치로 가져오는 과정을 설명합니다.
+```bash
+# 개발 환경 세팅 예시
+git clone https://github.com/your-id/game-archive-flask-msa-k8s-Iac.git
+cd backend
+pip install -r requirements.txt
 
-1. **본인의 작업 브랜치에서 최신 develop 내용 가져오기**
-   ```bash
-   git pull origin develop
-   # 1. 현재 브랜치(본인 브랜치)에서 develop 브랜치의 최신 내용을 가져옴
-   # 2. 충돌이 발생하면 충돌 파일을 수정 후 커밋
+# kubectl, ansible, terraform 등은 환경에 맞게 설치 필요
 
-2. **작업 완료 후 병합된 상태를 푸시**
-   ```bash
-   git push origin feature/<이니셜>/<작업내용>
-   # 1. 본인 브랜치를 원격 저장소로 업데이트
-   # 예시: git push origin feature/hjw/login-function
+## 🎥 웹서비스 미리보기
 
----
-## **💥 VS Code에서 소스 제어 확인**
-Git 명령어를 사용하지 않고, **Visual Studio Code**에서 Git 소스 제어 기능을 활용하여 브랜치를 병합하고 충돌을 해결하는 방법을 안내합니다.
+![웹 시연 GIF](https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2tyNXJmbTF4b2EwNW51Nm0wd3czb3VlcXo5cXR6ZHExM2ZpdXVkdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/QtcCBK3xO8qMwJ8tVu/giphy.gif)
+
 
 ---
+## 🔗 관련 링크
 
-#### **1️⃣ 소스 제어 탭 확인**
-1. **VS Code 좌측 사이드바에서 소스 제어 아이콘 클릭**  
-   - 아이콘 모양: 📁 옆에 있는 **소스 제어 아이콘** (Git 로고처럼 보임)
-   - 현재 브랜치 이름을 확인할 수 있습니다.
-
-2. **현재 브랜치 확인 및 변경**  
-   - 왼쪽 하단의 **현재 브랜치 이름**을 클릭합니다.
-   - 브랜치 목록이 나타나며, 다른 브랜치로 전환 가능합니다.
-
----
-
-#### **2️⃣ develop 브랜치 병합**
-1. **현재 본인 브랜치에서 최신 develop 내용 가져오기**
-   - 소스 제어 탭에서 상단에 표시된 **Pull** 버튼 클릭.
-   - 명령 팔레트를 통해 직접 실행:
-     - `Ctrl + Shift + P` → "Git: Pull" 입력 → **origin/develop** 선택.
-
-2. **충돌이 발생한 경우 VS Code에서 충돌 해결**
-   - 충돌이 발생하면 **충돌 파일**에 표시됨:
-     - **충돌난 파일 옆에 '!' 아이콘**이 나타남.
-     - 해당 파일을 클릭하면 **충돌 내용**이 표시됨.
-   - 충돌 해결 방법:
-     - **Accept Current Change**: 현재 브랜치의 변경 사항을 유지.
-     - **Accept Incoming Change**: `develop` 브랜치의 변경 사항을 유지.
-     - **Accept Both Changes**: 두 변경 사항을 모두 반영.
-     - 필요에 따라 직접 충돌 내용 수정.
-
-3. **변경 사항 저장 및 커밋**
-   - 충돌 파일을 수정한 뒤, **소스 제어 탭**에서 변경 파일을 선택하고 **커밋 메시지 입력** → **✔️ Commit** 버튼 클릭.
-
----
-
-#### **3️⃣ 작업 완료 후 푸시**
-1. 소스 제어 탭 상단에서 **푸시(Push)** 버튼 클릭.
-2. 본인 브랜치가 최신 상태로 원격 저장소에 반영됩니다.
-
----
-
-### **💡 추가 팁**
-- **브랜치 변경하기:**
-  - 하단 상태바에서 현재 브랜치를 클릭 → 브랜치 선택.
-- **명령 팔레트를 활용:**
-  - `Ctrl + Shift + P` (macOS: `Cmd + Shift + P`)를 눌러 필요한 명령을 검색하세요.
-  - 예: `Git: Checkout to` → 브랜치 전환.
-- **Pull, Push, Commit 버튼 활용:**
-  - 소스 제어 탭에서 주요 Git 작업을 버튼 클릭만으로 처리할 수 있습니다.
-
+- [Ansible 기반 Kubernetes 클러스터 자동화 스크립트](https://github.com/yurimheo/ansible-k8s-cluster)
