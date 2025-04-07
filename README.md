@@ -127,6 +127,7 @@ cd backend
 pip install -r requirements.txt
 
 # kubectl, ansible, terraform 등은 환경에 맞게 설치 필요
+```
 
 ## 🎥 웹서비스 미리보기
 
